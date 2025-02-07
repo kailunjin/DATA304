@@ -2,10 +2,10 @@
 title: "Homework5"
 author: "Daniel(Kailun) Jin"
 format: html
-editor: visual
+editor: source
+embed-resources: true
 ---
 
 ## Exercise 1
-
 
 ## Exercise 2
