@@ -1,0 +1,66 @@
+---
+title: "Homework5"
+author: "Daniel(Kailun) Jin"
+format: html
+editor: source
+embed-resources: true
+---
+
+```{r}
+library(vegawidget)
+```
+
+## Exercise 1
+
+![](https://i.redd.it/73ql2m0qsjhe1.png)
+
+**What marks are being used? What variables are mapped to which properties?**
+
+The marks are line, text, and point.
+
+For left graph:
+
+x-axis \<- years(from 1939-2024)
+
+y-axis \<- total federal employment, unit in millions
+
+color \<- pink, represent for " total federal employment"
+
+annotation \<- In some special labeled dots, there is annotation to explain about the dots.
+
+For right graph:
+
+x-axis \<- years(from 1939-2024)
+
+y-axis \<- percent of all US jobs
+
+color \<- blue, represent for " percent of all US jobs"
+
+annotation \<- like another there also some annotation in the labeled dots.
+
+**What is the main story of this graphic?**
+
+These two graphs tell us the change of the total federal employment and percentage in all jobs in US. We can know in the recent years the total federal employment is kind of stable, but the percentage of it in all US jobs is decreasing.
+
+**What makes it a good graphic?**
+
+1.  Two graphs concatenate, using different color to represent different data, and color choosing is great.
+2.  Using guides, the title and subtitle, really can help reader to understanding data.
+3.  Choosing of using line mark help people easily to see the tender.
+4.  Using of the text and annotation, even little confused how they choose the special point, but it also can help us to date it represent. I think it may be a interactive graph, however from the website, I only can find this picture.
+
+**What features do you think you would know how to implement in Vega-Lite?**
+
+1.  title adding
+2.  it use both layer and concat, we just learn about it.
+3.  set color to all same color for three layers.
+
+**Are there any features of the graphic that you would not know how to do in Vega-Lite? If so, list them**.
+
+I think about adding annotation parts, it may not just for 1 dots but for many dots. It should have some special ways, also the text mark using how we put above the dots.
+
+## Exercise 2
+
+```{r}
+
+```
