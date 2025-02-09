@@ -110,7 +110,7 @@ my_plot_2<-list(
   
   encoding = list(
     x = list(field = "day of year", type= "ordinal", title = "Moth-Day", sort = ""),
-    y = list(field = "temp_max", type= "quantitative", title = "Max Temperature (°C)", scale = list(domin = c(-5,37))
+    y = list(field = "temp_max", type= "quantitative", title = "Max Temperature (°C)", scale = list(domain = list(-5,37))
   ),
   color = list(field = "year", type = "nominal", title = "Year")
 )
