@@ -54,6 +54,7 @@ These two graphs tell us the change of the total federal employment and percenta
 1.  title adding
 2.  it use both layer and concat, we just learn about it.
 3.  set color to all same color for three layers.
+4.  add the marks(line, point)
 
 **Are there any features of the graphic that you would not know how to do in Vega-Lite? If so, list them**.
 
@@ -61,6 +62,84 @@ I think about adding annotation parts, it may not just for 1 dots but for many d
 
 ## Exercise 2
 
-```{r}
+1.Create a graphic that shows the high temperature in Seattle each day.
 
+```{r}
+my_plot <-
+  list(
+    `$schema` = vega_schema(),
+    data = list(url= "https://calvin-data304.netlify.app/data/weather-with-dates.csv"),
+  title ="High Temperature in Seattle",
+  width = 550,
+  height = 200,
+  transform = list(list(filter = "datum.location == 'Seattle'")),
+  mark = "point",
+  encoding = list(
+    x = list(field = "date", type= "temporal"),
+    y = list(field = "temp_max", type= "quantitative")
+  )
+)
+ my_plot|>as_vegaspec()
+```
+
+Now modify this so that the temperatures for the same day of the year are overlaid on top of each other for the several years in the data set.
+
+```{r}
+my_plot_2<-list(
+      `$schema` = vega_schema(),
+    data = list(url= "https://calvin-data304.netlify.app/data/weather-with-dates.csv"),
+  title ="High Temperature in Seattle by Day",
+  width = 500,
+  height = 200,
+  params = list(
+    list(
+      name = "month",
+      value = 1,
+      bind = list(
+        input = "range",
+        min = 1,
+        max = 12,
+        step = 1,
+        name = "Select month"))),
+  
+  transform = list(
+    list(filter = "datum.location == 'Seattle' && datum.month == month"),
+    list(calculate = "datum.month + '-' + datum.day", as = "day of year" )),
+  
+  mark = "point",
+  
+  encoding = list(
+    x = list(field = "day of year", type= "ordinal", title = "Moth-Day", sort = ""),
+    y = list(field = "temp_max", type= "quantitative", title = "Max Temperature (°C)", scale = list(domin = c(-5,37))
+  ),
+  color = list(field = "year", type = "nominal", title = "Year")
+)
+)
+ my_plot_2|>as_vegaspec()
+```
+
+2.Create a graphic that shows how the different types of weather (rain, fog, etc.) are distributed by month in Seattle. When is it rainiest in Seattle? Sunniest?
+
+```{r}
+my_plot_w<- list(
+  `$schema` = "https://vega.github.io/schema/vega-lite/v5.json",
+  data = list(
+    url = "https://calvin-data304.netlify.app/data/weather-with-dates.csv"
+  ),
+  title = "Weather in Seattle by Month",
+  width = 500,
+  height = 200,
+  transform = list(
+    list(filter = "datum.location == 'Seattle'")
+  ),
+  mark = "bar",
+  encoding = list(
+    x = list(field = "month", type = "ordinal", sort = ""),
+    y = list(aggregate = "count"),
+    color = list(field = "weather"),
+    xOffset = list(field = "weather")
+  )
+)
+
+my_plot_w|>as_vegaspec()
 ```
