@@ -1,0 +1,114 @@
+---
+title: "HW6"
+author: "Daniel(Kailun) Jin"
+format: html
+editor: visual
+embed-resources: true
+---
+
+```{r}
+library(vegawidget)
+```
+
+## Exercise 1 Read Chapter 1 of Tufte (2001).
+
+What is the most interesting lesson, guide, or piece of advice Tufte offers you in this chapter?
+
+What page is your graphic on? It is on page 30.
+
+![](images/clipboard-922693472.png)
+
+1.Why did you pick the graphic you chose?
+
+I think this graph is the best one, it shows the change temperature, precipitation, and humidity through time all in one graph.
+
+2.What encoding channels are used in the graphic? What variables are they associated with?
+
+x \<- the time(month)
+
+y \<- the value of temperature, normal high temp, normal low temp, actuall precipitation, normal precipitation, and humidity.
+
+text \<- two are using as guide and another are show highest temp and lowest temp.
+
+color \<- light for normal and dark for actual.
+
+3.What, if any, elements of the graphic would be hard/impossible for you to implement in Vega-Lite (given what we know so far)?
+
+I can easily make those graph separately, it is looks like this gaph is consist by four graph. One is annual temperature(bar), one is month temp(multiple layers), one for month precipitation(bar), and one for humidity (area). But I am not sure how to put them together in a same big graph, use contact or facet, or both? How to let them share the same x axis.
+
+4.What point is Tufte illustrating with this graphic?
+
+We can shows the data in a time-series, show some value change with time.
+
+For the graph, the weather of New York in 1980 is very different than the normal. Lots of the high temp and low temp is outside the normal line, and some of the precipitations are more higher than normal and some are lower than normal.
+
+## Exercise 2 Read the following pages from (Knaflic 2020, chap. 2).
+
+pages 81-90 pages 101-103 List one or two ideas that you learned in these sections that will change the way you design and create data graphics.
+
+1.  For bar graph we must have a zero baseline, it can help people read the graph correctly. Make sure that show correct information to reader, some graph change may distorted data.
+2.  Make sure we know what our goal is. Some of data may not useful to our goal, do not include them in our graph, it will make our graph ugly and hard to read. Make the graph that all reader can easily to read.
+
+## Exercise 3 Do Exercies 2.13 of (Knaflic 2020, p 96).
+
+```{r}
+'
+{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "title": "Response and Completetion Rate",
+  "repeat":["Completion Rate", "Response Rate"],
+  "spec":{
+      "data":
+      { "values" :
+        [{"Date":"Q1-2017","Completion Rate":0.91,"Response Rate":0.023},
+        {"Date":"Q2-2017","Completion Rate":0.93,"Response Rate":0.018},
+        {"Date":"Q3-2017","Completion Rate":0.91,"Response Rate":0.028},
+        {"Date":"Q4-2017","Completion Rate":0.89,"Response Rate":0.023},
+        {"Date":"Q1-2018","Completion Rate":0.84,"Response Rate":0.034},
+        {"Date":"Q2-2018","Completion Rate":0.88,"Response Rate":0.027},
+        {"Date":"Q3-2018","Completion Rate":0.91,"Response Rate":0.026},
+        {"Date":"Q4-2018","Completion Rate":0.87,"Response Rate":0.039},
+        {"Date":"Q1-2019","Completion Rate":0.83,"Response Rate":0.028}] 
+      },
+      "layer":[
+        {
+          "mark":"line",
+          "encoding": {
+          "x":{"field":"Date",
+           "type": "ordinal",
+           "sort":["Q1-2017", "Q2-2017", "Q3-2017", "Q4-2017",
+          "Q1-2018", "Q2-2018", "Q3-2018", "Q4-2018",
+          "Q1-2019"]
+           },
+          "y":{"field":{"repeat": "repeat"},"type": "quantitative"},
+          "color":{
+            "datum":{"repeat":"repeat"},
+            "type": "nominal"}
+          }
+        },
+        {
+          "mark":{
+            "type": "point",
+            "filled": true,
+            "size":70
+          },
+          "encoding": {
+          "x":{"field":"Date",
+           "type": "ordinal",
+           "sort":["Q1-2017", "Q2-2017", "Q3-2017", "Q4-2017",
+          "Q1-2018", "Q2-2018", "Q3-2018", "Q4-2018",
+          "Q1-2019"]
+           },
+          "y":{"field":{"repeat": "repeat"},"type": "quantitative"},
+          "color":{
+            "datum":{"repeat":"repeat"},
+            "type": "nominal"}
+          }
+        }
+      ]
+  }
+}'|> as_vegaspec()
+
+```
+
+Make sure what we want to show and help reader to read easily, I choose to use repeat make two graphs one for each one because the percentage may represent for different thing and it is so hard to read one on the right one on the left.
