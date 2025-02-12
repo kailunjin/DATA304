@@ -6,7 +6,7 @@ embed-resources: true
 ---
 
 ## section1
-cool
 
+[homework 5](homework_5.html)
 
-## section2
+[homework 6](HW6.html)
