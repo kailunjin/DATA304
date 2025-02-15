@@ -1,0 +1,226 @@
+---
+title: "HW 7"
+author: "Daniel(Kailun) Jin"
+format: html
+editor: visual
+embed-resources: true
+---
+
+```{r}
+#| include: false
+library(vegawidget)
+```
+
+## Exercise 1 (Wilke on visualizing amounts) Read Chapter 6 of Wilke (2019).
+
+This chapter begins by discussing bar charts. Many of you gravitate toward bar plots. Beware the tendency to overuse them! But if you are going to use them, you should use them well.
+
+**a. List some guidelines/advice Wilke gives about creating bar charts.**
+
+1.  When the label is to long take more space, we can rotate the label for save space, or swap the x and y.
+
+2.  When there is no natural ordering for the bar, we can order the bar by the amount of count for better visual effect.
+
+**b .When is it not advised to use a bar chart? Why?**
+
+When we want to show some special points, and the bar chart cannot help us to show it, for example the compare the life expectancy, there is only smaller difference of each countries, it is hard to shows in bar chart.
+
+**c. What alternatives to bars are mentioned in this chapter?**
+
+The alternative of bar is dot plot and heat map.
+
+**d. What guidance does Wilke give about whether or not to stack bars vs. dodge them (using an offset in Vega-Lite)?**
+
+When we have two categorical variables, we can use the stack or group them. If the sum of the bar individually represent a meaningful value, it is good to use stack bars, otherwise we can group them or facet them.
+
+**e. Recreate Figure 6.3 in Vega-Lite.**
+
+```{r}
+'{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data":{"url": "https://calvin-data304.netlify.app/data/cow-movies.csv"},
+  "transform": [{"calculate": "datum.amount / 1000000","as": "amount_million"}],
+  "width":400,
+  "height":300,
+  "mark":{"type": "bar", "color":"skyblue","opacity":0.7},
+  "encoding": {
+    "x":{"field":"amount_million", "type": "quantitative",
+    "title": "weekend gross (million USD)", 
+    "scale":{"domain":[0,70]},
+    "axis": {"values": [20, 40, 60]}
+    },
+    "y":{"field":"title_short","type": "nominal", "sort":"-x","title":""}
+  }
+}'|> as_vegaspec()
+```
+
+**f. Recreate Figures 6.8 and 6.9 in Vega-Lite.**
+
+```{r}
+'{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data":{"url": "https://calvin-data304.netlify.app/data/cow-income.csv"},
+  "width":400,
+  "height":300,
+  "transform": [
+    {"filter":"datum.race != \'all\' && datum.race !== \'white_non_hispanic\'"}
+  ],
+  "mark":{"type": "bar"},
+  "encoding": {
+    "x":{
+      "field":"race", "type": "nominal","title":"","sort":"-y","axis": {"labelAngle": -0}
+    },
+    "y":{
+      "field":"median_income", "type": "quantitative", "title":"median income (USD)",
+      "axis": {"format": "$,.0f"}
+    },
+    "xOffset":{
+      "field":"age","type": "nominal"
+    },
+    "color":{"field":"age", "type": "nominal","title":"age(yrs)"}
+  }
+}' |> as_vegaspec()
+```
+
+```{r}
+'{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data":{"url": "https://calvin-data304.netlify.app/data/cow-income.csv"},
+  "width":300,
+  "height":200,
+  "transform": [
+    {"filter":"datum.race != \'all\' && datum.race !== \'white_non_hispanic\'"}
+  ],
+  "mark":{"type": "bar","color":"skyblue","opacity":0.9},
+  "encoding": {
+    "x":{
+      "field":"age", "type": "nominal","title":"age","sort":"-y","axis": {"labelAngle": -0}
+    },
+    "y":{
+      "field":"median_income", "type": "quantitative", "title":"median income (USD)",
+      "axis": {"format": "$,.0f"}
+    },
+    "facet": {"field":"race", "columns": 2}
+  }
+}'|> as_vegaspec()
+```
+
+**g. Recreate Figure 6.11 and explain why Figures 6.12 and 6.13 are labeled “bad”.**
+
+6.12 and 6.13 is bad, because the 6.12 using the bar, but it is hard to say the difference between each countries by looking at bar, it is too small. For 6.13, it uses dot, but it is not be sorted, so it is also hard to say the difference. If we just look at it, we may thing there is a big difference between each countries.
+
+```{r}
+'{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data":{"url": "https://calvin-data304.netlify.app/data/cow-gapminder.csv"},
+  "transform": [{"filter":"datum.year == 2007 && datum.continent == \'Americas\'"}],
+  "mark":{"type": "point", "filled": true},
+  "encoding": {
+    "x":{
+      "field":"lifeExp", "type": "quantitative","scale":{"domain":[60,80]}, "title":"Life expectancy(year)"
+    },
+    "y":{
+      "field":"country", "type": "nominal","sort":"-x", "title":null, "axis":{"grid": true}
+    }
+  }
+}'|> as_vegaspec()
+```
+
+## Exercise 2
+
+**b.List at least three pieces of advice you can glean from this video that might help you design good graphics.**
+
+1.  Avoid bad taste, bad data, bad perception!
+
+2.  Think about the perception, try to consider about the choosing of color, shape, and so on.
+
+3.  Think about clarity, honesty, and truth, be aware of the data and graphic we see, make sure we shows our data in right way.
+
+**c.There are two figures in this video that come from Chapter 1 of Tufte (2001). Did you spot them? Which figures are they?**
+
+These two figure shows in the video, but the first one just show as background.
+
+![](images/clipboard-2877180030.png)
+
+![](images/clipboard-1796382252.png)
+
+## Exercise 3 (Heat maps)
+
+**a.In Vega-Lite lingo, what makes something be a heat map?**
+
+We can use "mark":" rect" to make the heat map.
+
+**b.Recreate Figure 6.14 or 6.15 from Wilke (2019) (your choice). Or get fancy and include an interactive element that let’s you select the year to order by.**
+
+```{r}
+'{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data":{"url": "https://calvin-data304.netlify.app/data/cow-internet2.csv"},
+  "transform": [
+    {"calculate": "datum.year == 2016 ? datum.users : 0", "as": "users_2016"
+    }
+  ],
+  "mark":"rect",
+  "encoding": {
+    "x":{"field":"year", 
+    "type": "ordinal",
+    "title":null},
+
+    "y":{"field":"country", 
+    "type": "nominal",
+    "title":null,"sort":{"field":"users_2016", "order":"descending",
+    "op": "average" }},
+
+    "color":{"field":"users",
+    "type": "quantitative",
+    "title": "Internet Users per 100 People",
+    "scale": {
+    "domain": [0, 25, 50, 75, 100]}}
+  }
+}' |> as_vegaspec()
+
+```
+
+**c.At around 20:10, Healy presents a possible problem with heat maps, what is it?**
+
+Around environment will affect how we see the heat maps, if there is a comparison, we can easily distinguish the color. We may need some time to find it.
+
+**d.But starting at around 44:12, he presents a heat map as a “show pony”. Why isn’t the problem presented earlier an issue here? Is it an issue in the figure you make in part b? Why or why not?**
+
+I think because in that plot we don't need to know the especial point of it, we just see the whole graph and try to know the situation. For example we see a big dark part in some year, we may think this year have lots of people die, it may had a war. Also, another reason may is that it has lots of data to support it. The small color different didn't effect to much.
+
+There is not issue in the graph that I make, I think the choosing of color is important.
+
+## Exercise 4 (Pie charts)
+
+**a.What does Healy have to say about pie charts in his video?**
+
+The pie chart may not a good choice for showing data, because the angle is really hard to say the difference.
+
+**b.How does that compare to what Wilke says in Section 10.1 of Wilke (2019)?**
+
+The point of Wilke is none of these visualizations is consistently superior over any other. It is really depend on the background situation. When we want clearly visualizes the data as proportions of a whole, the pie char may is the good choice.
+
+**c.What alternatives does Wilke present to pie charts and in what situations does he favor each? (You should be comparing pie charts to two other types of graphics that can be made with the same sort of data.)**
+
+Depend on the situation, we can use stacked bar or side-by-side bar to replace the pie chart.
+
+**d.We won’t make many pie charts, but I suppose you should make at least one. To do this in Vega-Lite, use an arc mark. Recreate Figure 10.1 of Wilke (2019).**
+
+```{r}
+'{
+  "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+  "data":{"values":[
+    {"Party":"CDU/CSU", "seats":"243"},
+    {"Party":"FDP", "seats":"39"},
+    {"Party":"SPD", "seats":"214"}
+  ]},
+    "mark": {"type": "arc", "tooltip": true},
+    "encoding": {
+     "theta": {"field": "seats", "type": "quantitative"},
+    "color": {"field": "Party", "type": "nominal", "legend": {"title": "Party"}}
+    }
+}' |> as_vegaspec()
+```
+
+I am not sure how to add the text in the pie plot, but I add the tooltip.
