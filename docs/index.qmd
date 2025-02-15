@@ -10,3 +10,5 @@ embed-resources: true
 [homework 5](homework_5.html)
 
 [homework 6](HW6.html)
+
+[homework 7](HW%207.html)
