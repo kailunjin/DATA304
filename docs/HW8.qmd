@@ -1,0 +1,218 @@
+---
+title: "HW8"
+author: "Daniel(Kailun) Jin"
+format: html
+editor: visual
+embed-resources: true
+---
+
+```{r}
+#| include: false
+library(reticulate)
+library(vegabrite)
+library(tidyr)
+library(tidyverse)
+```
+
+## Exercise 1
+
+```{r}
+supply_data_l <- jsonlite::fromJSON("https://calvin-data304.netlify.app/data/swd-lets-practice-ex-2-3.json")
+supply_data_l <- supply_data_l |> mutate(unmet_demand = demand -capacity)
+
+supply_data_w <- supply_data_l|> pivot_longer(capacity:demand, names_to = "type", values_to = "count")
+```
+
+```{r}
+vl_chart(width = 500, height = 200)|>
+  vl_mark_bar()|>
+  vl_encode_x("date:N")|>
+  vl_encode_y("count:Q", title = "")|>
+  vl_encode_color("type:N")|>
+  vl_encode_xOffset("type:N")|>
+  vl_encode_tooltip_array(list("type","count"))|>
+  vl_config_axisBottom(labelAngle = 0)|>
+  vl_add_data(supply_data_w)
+```
+
+```{r}
+capcity_line <- vl_chart(width = 500, height = 300)|>
+  vl_mark_line(color = "blue")|>
+  vl_encode_y("capacity:Q",title = "value")|>
+  vl_encode_x("date:N")
+
+demand_line <- vl_chart(width = 500, height = 300)|>
+  vl_mark_line(color = "orange")|>
+  vl_encode_y("demand:Q")|>
+  vl_encode_x("date:N")
+  
+vl_layer(demand_line,capcity_line)|>
+  vl_encode_tooltip_array(list("capacity","demand"))|>
+  vl_config_axisBottom(labelAngle = 0)|>
+  vl_add_data(supply_data_l)
+```
+
+```{r}
+capcity <- vl_chart(width = 600, height = 300)|>
+  vl_mark_bar(color = "blue", size = 15)|>
+  vl_encode_y("capacity:Q",title = "value")|>
+  vl_encode_x("date:T")
+
+demand <- vl_chart(width = 300, height = 300)|>
+  vl_mark_bar(color = "orange", size = 5)|>
+  vl_encode_y("demand:Q")|>
+  vl_encode_x("date:T")
+  
+vl_layer(demand,capcity)|>
+  vl_encode_tooltip_array(list("capacity","demand"))|>
+  vl_add_data(supply_data_l)
+  
+```
+
+```{r}
+vl_chart(width = 500, height = 300)|>
+  vl_add_data(supply_data_l)|>
+  vl_fold(fold = c("capacity", "unmet_demand"), as = c("Type", "Value"))|>
+  vl_mark_bar(size = 15)|>
+  vl_encode_x("date:T")|>
+  vl_encode_y("Value:Q")|>
+  vl_encode_color("Type:N")|>
+  vl_encode_order("Type", sort = list("capacity", "unmet_demand")) |>
+  vl_encode_tooltip_array(list("capacity","unmet_demand"))
+```
+
+```{r}
+capcity_point <- vl_chart(width = 500, height = 300)|>
+  vl_mark_point(color = "blue", filled = TRUE)|>
+  vl_encode_y("capacity:Q",title = "value")|>
+  vl_encode_x("date:N",)
+
+demand_point <- vl_chart(width = 500, height = 300)|>
+  vl_mark_point(color = "orange",filled = TRUE)|>
+  vl_encode_y("demand:Q")|>
+  vl_encode_x("date:N")
+
+unmet_demand_rule <- vl_chart(width = 500, height = 300)|>
+  vl_mark_rule()|>
+  vl_encode_y("capacity:Q")|>
+  vl_encode_y2("demand:Q")|>
+  vl_encode_x("date:N")
+
+vl_layer(capcity_point,demand_point,unmet_demand_rule)|>
+  vl_encode_tooltip_array(list("capacity","demand", "unmet_demand"))|>
+  vl_config_axisBottom(labelAngle = 0)|>
+  vl_add_data(supply_data_l)
+```
+
+```{r}
+vl_chart(width = 500, height = 300)|>
+  vl_add_data(supply_data_l)|>
+  vl_mark_line(point = TRUE)|>
+  vl_encode_x("date:N")|>
+  vl_encode_y("unmet_demand:Q")|>
+  vl_config_axisBottom(labelAngle = 0)|>
+  vl_encode_tooltip_array(list("unmet_demand"))
+```
+
+## Exercise 2
+
+a.  
+
+```{r}
+jobs <- jsonlite::fromJSON("https://cdn.jsdelivr.net/npm/vega-datasets@2.8.0/data/jobs.json")
+
+total_work <- jobs |>
+  group_by(year, sex)|>
+  summarise(total_perc = sum(perc, na.rm = TRUE))
+
+vl_chart()|>
+  vl_add_data(total_work)|>
+  vl_mark_point()|>
+  vl_encode_x("year:N")|>
+  vl_encode_y("total_perc:Q")|>
+  vl_encode_tooltip_array(list("year", "total_perc"))|>
+  vl_facet("sex:N")|>
+  vl_add_properties(
+    title = "Now, the work percntage is equal for man and woman"
+  )
+```
+
+This graph show the percentage of man and woman worked change through years, the percentage represent the percentage of man worker and woman woker.
+
+b.  
+
+```{r}
+jobs_w <- jobs |>
+  filter(year %in% c(1850, 1900, 1950, 2000)) |>
+  pivot_wider(names_from = sex, values_from = c(perc, count))
+```
+
+```{r}
+vl_chart()|>
+  vl_add_data(jobs_w)|>
+  vl_mark_point()|>
+  vl_encode_x("perc_men:Q", axis = list(format = ".0%"))|>
+  vl_scale_x(type = "symlog", constant = 0.00001)|>
+  vl_encode_y("perc_women:Q",axis = list(format = ".0%"))|>
+  vl_scale_y(type = "symlog", constant = 0.00001)|>
+  vl_facet("year:N")|>
+  vl_encode_tooltip_array(list("perc_men","perc_women", "job"))|>
+  vl_add_properties(
+    title = "Each work percentage for four years"
+  )
+  
+
+```
+
+c.  
+
+```{r}
+jod_gender <- jobs |>
+  group_by(job, sex)|>
+  summarise(gender_perc = sum(perc, na.rm = TRUE))|>
+  pivot_wider(names_from = sex, values_from = gender_perc)
+```
+
+```{r}
+vl_chart()|>
+  vl_add_data(jod_gender)|>
+  vl_mark_point()|>
+  vl_encode_x("men:Q", axis = list(format = ".0%"))|>
+  vl_scale_x(type = "symlog", constant = 0.00001)|>
+  vl_encode_y("women:Q", axis = list(format = ".0%"))|>
+  vl_scale_y(type = "symlog", constant = 0.00001)|>
+  vl_encode_tooltip_array(list("job","men","women"))|>
+  vl_add_properties(
+    title = "Sum of percentage for each work from 1850 to 2000"
+  )
+```
+
+## Exercise 3
+
+```{r}
+gas_price <- read.csv("https://calvin-data304.netlify.app/data/pump_price_for_gasoline_us_per_liter.csv")
+country <- read.csv("https://raw.githubusercontent.com/lukes/ISO-3166-Countries-with-Regional-Codes/master/all/all.csv")
+```
+
+```{r}
+gas_country <- bind_rows(
+  inner_join(gas_price, country, by = c("country" = "name")),
+  inner_join(gas_price, country, by = c("country" = "alpha.3"))
+  )|> distinct()
+```
+
+If we use inner join there are only 155 countries get matched, there are 27 countries didn't get matched.
+
+```{r}
+vl_chart(width = 600, height = 300)|>
+  vl_add_data(gas_country)|>
+  vl_mark_point(filled = TRUE, size = 70)|>
+  vl_encode_color("region:N")|>
+  vl_encode_x("X2014:Q", axis = list(title = "2014 Prices", format = "$,.2f"))|>
+  vl_encode_y("X2016:Q", axis = list(title = "2016 Prices", format = "$,.2f"))|>
+  vl_encode_tooltip_array(list("country","alpha.3", "country.code","X2014","X2016"))|>
+  vl_add_properties(
+    title = "Gas Price in Each Country(US $ per liter)"
+  )
+  
+```
