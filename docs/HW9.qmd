@@ -1,0 +1,155 @@
+---
+title: "HW9"
+author: "Daniel(Kailun) Jin"
+format: html
+editor: visual
+embed-resources: true
+---
+
+```{r}
+#| include: false
+library(vegabrite)
+library(tidyverse)
+```
+
+```{r}
+vega_data <- altair::import_vega_data()
+```
+
+# Exercise 1
+
+## a.
+
+1.  Color can use to distinguish discrete. First, it should be look clearly distinct from each other. Second, no color should stand out than others. Third, it cannot create the impression of order.
+2.  Color can use to represent the data value. It can be in order from dark to light of one color. Also, if we have negative value, we can use a light color in the middle and different dark color in to side. The change from light to dark should be approximately same.
+3.  We can use color as highlight. We can make other color be light, and put the one that we can highlight be dark.
+
+## b.
+
+Wilke send them to six group.
+
+First is amount, this graphic type is used to show the amount of the data, we have bar, dot, heat map and so on.
+
+Second is distribution, it used to show how the data distributed, we have density, histogram, box plot and so on.
+
+Third is proportion. Shows the proportion of each category takes. We have pie chart, grouped bar and so on.
+
+Fourth is x-y relationship, shows how y change with x, we have line chart, scatter plot and so on.
+
+Fifth is geospatial data. It shows data in the map, for example we want shows the population of countries.
+
+Sixth is uncertainty. It shows the error, usually we can use it to shows prediction of the model.
+
+## c.
+
+Cumulative density plot, It looks like we use line as the mark, but I am wonder how it work, how to read this graphic, is there how we do the data wrangling.
+
+Cartogram heatmap, how we can make it, two layer? one for text, one for heat map?
+
+Density Contours, I saw few of it before, but I am still not sure how it work, how to read it.
+
+Mosaic plot, it looks like a bar chart mix with heatmap. How we do it?
+
+Stacked density plot, it looks like the ues the area, but sum is 1. How we can make it?
+
+## d.
+I try to make a mosaic plot using the jobs data. Using the data in 1900 year shows the proportion of Accountant / Auditor, Actor and Agent.
+```{r}
+jobs <- vega_data$jobs()
+```
+
+```{r}
+jobs <- jobs|>filter(year == 1900)|>
+  filter(job == "Accountant / Auditor" | job == "Actor" | job == "Agent")
+```
+
+```{r}
+vl_chart()|>
+  vl_add_data(jobs)|>
+  vl_mark_rect()|>
+  vl_encode_x("job:N")|>
+  vl_encode_y("sex:N")|>
+  vl_encode_size("count:Q")|>
+  vl_encode_color("count:Q")
+```
+
+Not sure why the size is not work, I find some sources but they are not use vegabrite.
+
+## e.
+
+I learn that if we want to shows that a value that have overlap categories, we can send each x and y a category to make a mosaic plot, also there is a another way treemap. Both of them can easily shows the proportion.  
+
+# Exercise 2
+
+```{r}
+pie_data <- read.csv("https://calvin-data304.netlify.app/data/likert-survey.csv")
+```
+
+## a.
+
+```{r}
+pie_layer <- vl_chart()|>
+  vl_mark_arc(outerRadius = 80, opacity = 0.7)|>
+  vl_encode_color("response:N")
+
+text_layper <- vl_chart()|>
+  vl_mark_text(radius = 90)|>
+  vl_encode_text("count:Q")|>
+  vl_encode_color("response:N")
+
+vl_layer(pie_layer, text_layper)|>
+  vl_encode_order("count:Q", sort = "descending")|>
+  vl_encode_theta("count:Q",stack = TRUE)|>
+  vl_facet_column("year:N")|>
+  vl_add_data(pie_data)
+```
+
+## b.
+
+```{r}
+vl_chart()|>
+  vl_mark_bar()|>
+  vl_encode_x("number:N")|>
+  vl_encode_y("count:Q")|>
+  vl_encode_color("response:N")|>
+  vl_facet("year:N")|>
+  vl_add_data(pie_data)
+```
+
+## c.
+
+1.  For reading the number, if we didn't add text layer to pie chart there is no way that we can know the number of count, however in bar we have y axis to help us get the number.
+2.  It is hard to compare by using the pie chart, in bar we can easily to see there is a big difference between each response. In pie chart, if there is no really big difference, the angles are really hard to know the difference.
+
+# Exercise 3
+
+```{r}
+obesity <- vega_data$obesity()
+```
+
+```{r}
+us_map_url <- vega_data$us_10m$url
+state_map <-
+  vl_chart() |>
+  vl_add_data(
+    url = us_map_url, 
+    format = list(type = "topojson", feature = "states")) |>
+  vl_add_properties(projection = list(type = "albersUsa")) |>
+  vl_mark_geoshape(fill = "transparent", stroke = "black") 
+```
+
+```{r}
+state_map|>
+  vl_lookup(
+    lookup = "id",
+    from = (list(
+      data = list(url = vega_data$obesity$url),
+      key = "id",
+      fields = list("rate","state"))))|>
+  vl_encode_stroke(value = "transparent")|>
+  vl_encode_fill("rate:Q") |>
+  vl_encode_tooltip_array(list("rate", "state"))|>
+  vl_legend_fill(title = "obsity rate", format = ".0%", type = "gradient") |>
+  vl_add_properties(width = 400, height = 300)
+  
+```
