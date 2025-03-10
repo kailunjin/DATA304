@@ -16,3 +16,5 @@ embed-resources: true
 [homework 8](HW8.html)
 
 [homework 9](HW9.html)
+
+[final portfolio](Final portfolio.html)

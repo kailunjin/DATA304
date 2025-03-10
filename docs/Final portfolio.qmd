@@ -1,0 +1,129 @@
+---
+title: "Final profile"
+format: html
+author: Daniel(Kailun) Jin
+editor: visual
+code-tools: true
+embed-resources: true
+---
+
+```{r}
+# library require
+#| include: false
+library(vegabrite)
+library(tidyverse)
+library(readxl)
+```
+
+data:
+
+[Exercise 1 twins](https://calvin-data304.netlify.app/data/twins-genetics-long.csv)
+
+[Exercise 2 Net Promoter Score](https://calvin-data304.netlify.app/data/swd-lets-practice-ex-7-06.xlsx)
+
+## Exercise 1
+
+```{r}
+twins_data <- read.csv("https://calvin-data304.netlify.app/data/twins-genetics-long.csv")
+```
+
+```{r}
+# graph for compare kit
+kit_compare <-vl_chart()|>
+  vl_add_properties(width = 400, height = 300)|>
+  vl_add_data(twins_data)|>
+  vl_mark_bar()|>
+  vl_encode_x("kit:N")|>
+  vl_encode_y("genetic.share:Q")|>
+  vl_encode_color("region:N")|>
+  vl_encode_xOffset("twin:N")|>
+  vl_config_axisBottom(labelAngle = 0)
+
+kit_compare|>
+  vl_add_properties(title = "Comparison of three kits")
+```
+
+The Ancestry may is the best choice for text the genetic share, because it has the lowest error in the test. The x axis represent three different kits, y axis represent the genetic share of the text. Color represent different region of twin gene come from. Also the xoffset is different people take the test.
+
+```{r}
+# graph for compare twins
+twin_compare <- vl_chart()|>
+  vl_add_properties(width = 300, height = 300)|>
+  vl_add_data(twins_data)|>
+  vl_mark_bar()|>
+  vl_encode_x("twin:N")|>
+  vl_encode_y("genetic.share:Q")|>
+  vl_encode_color("region:N")|>
+  vl_scale_color(scheme = "category20")|>
+  vl_config_axisBottom(labelAngle = 0)
+
+twin_compare|>
+  vl_add_parameter("kit", value = "23andMe")|>
+  vl_bind_select_input(
+    parameter_name = "kit",
+    name = "Kit type",
+    options = list("23andMe", "Ancestry", "MyHeritage")
+  )|>
+  vl_filter("datum.kit == kit")|>
+  vl_add_properties(title = "Comparison of Different twins")
+  
+```
+
+Twins always have the same gene region, however the percentage of them may little difference. X axis represent different people take the test, same number means they are twins. y axis represent the genetic share percent. Different color mean the region of gene from.
+
+## Exercise 2
+
+```{r}
+# Define the URL of the Excel file
+url <- "https://calvin-data304.netlify.app/data/swd-lets-practice-ex-7-06.xlsx"
+
+# Define a temporary file path
+temp_file <- tempfile(fileext = ".xlsx")
+
+# Download the file
+download.file(url, temp_file, mode = "wb")
+
+# Read the Excel file
+Net_Promoter_Score <- read_excel(temp_file)
+
+```
+
+```{r}
+Net_Promoter_Score <- Net_Promoter_Score|>
+  mutate(net_promoter_score = Promoter - Detractor)
+```
+
+```{r}
+NPS_l <- vl_chart()|>
+  vl_mark_line()|>
+  vl_encode_x("month:T")|>
+  vl_encode_y("net_promoter_score:Q", axis = list(format = ".0%"))
+
+NPS_p <- vl_chart()|>
+  vl_mark_point(filled = TRUE)|>
+  vl_encode_x("month:T")|>
+  vl_encode_y("net_promoter_score:Q", axis = list(format = ".0%"))
+
+NPS_t <- vl_chart()|>
+  vl_mark_text(dy = -13, dx = 10)|>
+  vl_encode_x("month:T")|>
+  vl_encode_y("net_promoter_score:Q", axis = list(format = ".0%"))|>
+  vl_encode_text("# of ratings:Q")
+
+vl_layer(NPS_l,NPS_p,NPS_t)|>
+    vl_add_properties(width = 400, height = 200)|>
+  vl_add_data(Net_Promoter_Score)|>
+  vl_add_properties(title =list(
+    text = "NPS flat increase through time",
+    subtitle = "Rating in 2020 February is 518"
+  ))
+```
+
+The net promoter score of our company increase and remain flat through times, and our rat in 2020 February is 518. It is kind of low, but the best thing is our score is increasing. 
+X axis represent each month, and the y axis represent the NPS, line and point shows the NPS, the text is the rating of our company through times
+
+## Exercise 3
+
+## Exercise 4
+
+## Exercise 6
