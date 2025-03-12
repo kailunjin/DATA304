@@ -166,6 +166,23 @@ vl_chart()|>
 
 The rate of modern contraception use of Tanzania is increasing through the years, the rate of total fertility and unmet need family planning is decreasing through years. It looks like a good news for Tanzania. I using years for x axis and percent for y axis, facing and color by type of percentage. Also add tooltip help us to know the excatly year and numeber of percentage.
 
+```{r}
+
+vl_chart()|>
+  vl_add_data(tanzania_data)|>
+  vl_add_properties(width = 200, height = 150)|>
+  vl_repeat_wrap("Total_Fertility_Rate", "Modern_Contraception_Use", "Unmet_Need_Family_Planning")|>
+  vl_mark_line(point = TRUE)|>
+  vl_encode_x("Year:T")|>
+  vl_encode_y(field = "repeat:wrap", type = "quantitative")|>
+  vl_add_properties(
+    title = "Demographis and Health Surveys(DHS)) of Tanzaniz"
+  )
+  
+```
+Make this graph by using repeat again,compare than faceting, I think faceting is better, however each of them have their own way to shows the data repeat can better for the each data themselves, faceting can use for compareation.
+
+
 ## Exercise 4
 ```{r}
 coffee <- read_csv("FAOSTAT_data_en_9-29-2023.csv")
