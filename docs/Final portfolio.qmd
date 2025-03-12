@@ -2,24 +2,28 @@
 title: "Final profile"
 format: html
 author: Daniel(Kailun) Jin
-editor: visual
+editor: source
 code-tools: true
 embed-resources: true
 ---
 
 ```{r}
-# library require
 #| include: false
+# library require
 library(vegabrite)
 library(tidyverse)
 library(readxl)
 ```
 
-data:
+## data:
 
 [Exercise 1 twins](https://calvin-data304.netlify.app/data/twins-genetics-long.csv)
 
 [Exercise 2 Net Promoter Score](https://calvin-data304.netlify.app/data/swd-lets-practice-ex-7-06.xlsx)
+
+[Exercise 3 Tanzania](https://dhsprogram.com/Countries/Country-Main.cfm?ctry_id=39&c=Tanzania&Country=Tanzania&cn=&r=1)
+
+[Exercise 4 coffee production](https://www.fao.org/faostat/en/#data/QCL)
 
 ## Exercise 1
 
@@ -36,6 +40,7 @@ kit_compare <-vl_chart()|>
   vl_encode_x("kit:N")|>
   vl_encode_y("genetic.share:Q")|>
   vl_encode_color("region:N")|>
+  vl_scale_color(scheme = "category20")|>
   vl_encode_xOffset("twin:N")|>
   vl_config_axisBottom(labelAngle = 0)
 
@@ -50,7 +55,7 @@ The Ancestry may is the best choice for text the genetic share, because it has t
 twin_compare <- vl_chart()|>
   vl_add_properties(width = 300, height = 300)|>
   vl_add_data(twins_data)|>
-  vl_mark_bar()|>
+  vl_mark_bar(cornerRadiusTopLeft = 3, cornerRadiusTopRight = 3)|>
   vl_encode_x("twin:N")|>
   vl_encode_y("genetic.share:Q")|>
   vl_encode_color("region:N")|>
@@ -95,14 +100,14 @@ Net_Promoter_Score <- Net_Promoter_Score|>
 
 ```{r}
 NPS_l <- vl_chart()|>
-  vl_mark_line()|>
+  vl_mark_line(point = TRUE)|>
   vl_encode_x("month:T")|>
-  vl_encode_y("net_promoter_score:Q", axis = list(format = ".0%"))
-
-NPS_p <- vl_chart()|>
-  vl_mark_point(filled = TRUE)|>
-  vl_encode_x("month:T")|>
-  vl_encode_y("net_promoter_score:Q", axis = list(format = ".0%"))
+  vl_encode_y("net_promoter_score:Q", axis = list(format = ".0%"))|>
+  vl_encode_tooltip_array(list(
+    list(field = "month", type = "temporal", timeUnit = "yearmonth", title = "Month"),  
+    list(field = "net_promoter_score", type = "quantitative", title = "NPS", format = ".0%"),
+    list(field = "# of ratings", type = "quantitative", title = "Ratings")
+  ))
 
 NPS_t <- vl_chart()|>
   vl_mark_text(dy = -13, dx = 10)|>
@@ -110,20 +115,117 @@ NPS_t <- vl_chart()|>
   vl_encode_y("net_promoter_score:Q", axis = list(format = ".0%"))|>
   vl_encode_text("# of ratings:Q")
 
-vl_layer(NPS_l,NPS_p,NPS_t)|>
-    vl_add_properties(width = 400, height = 200)|>
+vl_layer(NPS_l,NPS_t)|>
   vl_add_data(Net_Promoter_Score)|>
-  vl_add_properties(title =list(
+  vl_add_properties(width = 400, height = 200,
+    title =list(
     text = "NPS flat increase through time",
     subtitle = "Rating in 2020 February is 518"
   ))
 ```
 
-The net promoter score of our company increase and remain flat through times, and our rat in 2020 February is 518. It is kind of low, but the best thing is our score is increasing. 
-X axis represent each month, and the y axis represent the NPS, line and point shows the NPS, the text is the rating of our company through times
+The net promoter score of our company increase and remain flat through times, and our rat in 2020 February is 518. It is kind of low, but the best thing is our score is increasing. X axis represent each month, and the y axis represent the NPS, line and point shows the NPS, the text is the rating of our company through times
 
 ## Exercise 3
 
-## Exercise 4
+```{r}
+tanzania_data <- data.frame(
+  DHS_Survey_Year = c("2015-2016", "2010", "2004-2005", "1999", "1996", "1991-1992"),
+  Total_Fertility_Rate = c(5.2, 5.4, 5.7, 5.6, 5.8, 6.2),
+  Modern_Contraception_Use = c(38.4, 23.6, 17.6, 15.6, 11.7, 5.9),
+  Unmet_Need_Family_Planning = c(22.1, 22.3, 24.3, 22.3, 26.0, 27.8)
+)
+```
 
-## Exercise 6
+```{r}
+tanzania_data <- tanzania_data|>
+  separate_rows(DHS_Survey_Year, sep = "-")|>
+  rename(Year = DHS_Survey_Year)
+
+tanzania_data_l <- tanzania_data |>
+  pivot_longer(Total_Fertility_Rate:Unmet_Need_Family_Planning, names_to = "type", values_to = "percent")
+```
+
+```{r}
+vl_chart()|>
+  vl_add_data(tanzania_data_l)|>
+  vl_mark_line(point = TRUE)|>
+  vl_encode_x("Year:T")|>
+  vl_encode_y("percent:Q")|>
+  vl_encode_color("type:N")|>
+  vl_add_properties(width = 200, height = 150)|>
+  vl_facet_column("type:N", title = FALSE)|>
+  vl_encode_tooltip_array(list(
+    list(field = "Year", type = "temporal"),
+    list(field = "percent", type = "quantitative")
+  ))|>
+  vl_add_properties(
+    title = "Demographis and Health Surveys(DHS)) of Tanzaniz"
+  )
+```
+
+The rate of modern contraception use of Tanzania is increasing through the years, the rate of total fertility and unmet need family planning is decreasing through years. It looks like a good news for Tanzania. I using years for x axis and percent for y axis, facing and color by type of percentage. Also add tooltip help us to know the excatly year and numeber of percentage.
+
+## Exercise 4
+```{r}
+coffee <- read_csv("FAOSTAT_data_en_9-29-2023.csv")
+```
+```{r}
+coffee_2021 <- coffee|>
+  filter(Year == 2021)
+```
+
+```{r}
+coffee_2021 <- coffee_2021 |>
+  rename(country_id = `Area Code (M49)`)
+```
+
+```{r}
+vega_data <- altair::import_vega_data()
+```
+
+```{r}
+world2_url <- 'https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json'
+
+world_map <-
+  vl_chart() |>
+  vl_add_data(url = world2_url, 
+               format = list(type = "topojson", feature = "countries")) |>
+  vl_mark_geoshape() |>
+  vl_add_properties(width = 800, height = 300)  
+```
+
+
+```{r}
+world_map|>
+  vl_lookup(
+    lookup = "id",
+    from = list(
+      data = list(values = coffee_2021),
+      key = "country_id",
+      fields = list("Value","Area")
+    )
+  )|>
+  vl_calculate("isValid(datum.Value) ? datum.Value : 0", as = "Value") |>
+  vl_calculate("isValid(datum.Area) ? datum.Area : 'This area do not produce coffee'", as = "Area") |>
+    vl_encode_stroke(value = "transparent") |>
+  vl_encode_fill("Value:Q",scale = list(scheme = "goldgreen")) |>
+  vl_legend_fill(title = "Yield", type = "gradient")|>
+  vl_encode_tooltip_array(list("Area", "Value"))|>
+  vl_add_properties(title =list(
+    text = "World Coffee Production in 2021",
+    subtitle = "Unit by Tons (T)"
+  ))
+```
+
+This plot show the Distribution of coffee production around the world in 2021. We can see the in 2021， Viet Nam is the biggest coffee producer in the world. 
+ 
+## Cited
+
+[bar chart with rounded corner](https://vega.github.io/vega-lite/examples/stacked_bar_count_corner_radius_mark.html)
+
+[line with point](https://vega.github.io/vega-lite/examples/line_overlay.html)
+
+[Multiple time series and dose–response curves](https://clauswilke.com/dataviz/time-series.html)
+
+[Choropleth mapping](https://clauswilke.com/dataviz/geospatial-data.html#choropleth-mapping)

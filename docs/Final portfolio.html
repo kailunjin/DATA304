@@ -4315,50 +4315,36 @@ if (HTMLWidgets.shinyMode) {
 </header>
 
 
-<div class="cell">
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="co"># library require</span></span>
-<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegabrite)</span>
-<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.5.1     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.1
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</div>
-<p>data:</p>
+<section id="data" class="level2">
+<h2 class="anchored" data-anchor-id="data">data:</h2>
 <p><a href="https://calvin-data304.netlify.app/data/twins-genetics-long.csv">Exercise 1 twins</a></p>
 <p><a href="https://calvin-data304.netlify.app/data/swd-lets-practice-ex-7-06.xlsx">Exercise 2 Net Promoter Score</a></p>
+<p><a href="https://dhsprogram.com/Countries/Country-Main.cfm?ctry_id=39&amp;c=Tanzania&amp;Country=Tanzania&amp;cn=&amp;r=1">Exercise 3 Tanzania</a></p>
+<p><a href="https://www.fao.org/faostat/en/#data/QCL">Exercise 4 coffee production</a></p>
+</section>
 <section id="exercise-1" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-1">Exercise 1</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>twins_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://calvin-data304.netlify.app/data/twins-genetics-long.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a>twins_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://calvin-data304.netlify.app/data/twins-genetics-long.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># graph for compare kit</span></span>
-<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>kit_compare <span class="ot">&lt;-</span><span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
-<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">400</span>, <span class="at">height =</span> <span class="dv">300</span>)<span class="sc">|&gt;</span></span>
-<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(twins_data)<span class="sc">|&gt;</span></span>
-<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_bar</span>()<span class="sc">|&gt;</span></span>
-<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;kit:N&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;genetic.share:Q&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_color</span>(<span class="st">&quot;region:N&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_xOffset</span>(<span class="st">&quot;twin:N&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_config_axisBottom</span>(<span class="at">labelAngle =</span> <span class="dv">0</span>)</span>
-<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>kit_compare<span class="sc">|&gt;</span></span>
-<span id="cb5-13"><a href="#cb5-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">title =</span> <span class="st">&quot;Comparison of three kits&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># graph for compare kit</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a>kit_compare <span class="ot">&lt;-</span><span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">400</span>, <span class="at">height =</span> <span class="dv">300</span>)<span class="sc">|&gt;</span></span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(twins_data)<span class="sc">|&gt;</span></span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_bar</span>()<span class="sc">|&gt;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;kit:N&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb2-7"><a href="#cb2-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;genetic.share:Q&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb2-8"><a href="#cb2-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_color</span>(<span class="st">&quot;region:N&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb2-9"><a href="#cb2-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_scale_color</span>(<span class="at">scheme =</span> <span class="st">&quot;category20&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb2-10"><a href="#cb2-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_xOffset</span>(<span class="st">&quot;twin:N&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb2-11"><a href="#cb2-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_config_axisBottom</span>(<span class="at">labelAngle =</span> <span class="dv">0</span>)</span>
+<span id="cb2-12"><a href="#cb2-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-13"><a href="#cb2-13" aria-hidden="true" tabindex="-1"></a>kit_compare<span class="sc">|&gt;</span></span>
+<span id="cb2-14"><a href="#cb2-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">title =</span> <span class="st">&quot;Comparison of three kits&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="htmlwidget-4b358e3c9e5722cea3ac" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-4b358e3c9e5722cea3ac">{"x":{
+<div id="htmlwidget-52e75aac49f43609d853" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-52e75aac49f43609d853">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "height": 300,
@@ -5197,7 +5183,10 @@ if (HTMLWidgets.shinyMode) {
       },
       "color": {
         "field": "region",
-        "type": "nominal"
+        "type": "nominal",
+        "scale": {
+          "scheme": "category20"
+        }
       },
       "xOffset": {
         "field": "twin",
@@ -5220,29 +5209,29 @@ if (HTMLWidgets.shinyMode) {
 </div>
 <p>The Ancestry may is the best choice for text the genetic share, because it has the lowest error in the test. The x axis represent three different kits, y axis represent the genetic share of the text. Color represent different region of twin gene come from. Also the xoffset is different people take the test.</p>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># graph for compare twins</span></span>
-<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>twin_compare <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
-<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">300</span>, <span class="at">height =</span> <span class="dv">300</span>)<span class="sc">|&gt;</span></span>
-<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(twins_data)<span class="sc">|&gt;</span></span>
-<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_bar</span>()<span class="sc">|&gt;</span></span>
-<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;twin:N&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;genetic.share:Q&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_color</span>(<span class="st">&quot;region:N&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_scale_color</span>(<span class="at">scheme =</span> <span class="st">&quot;category20&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_config_axisBottom</span>(<span class="at">labelAngle =</span> <span class="dv">0</span>)</span>
-<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>twin_compare<span class="sc">|&gt;</span></span>
-<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_parameter</span>(<span class="st">&quot;kit&quot;</span>, <span class="at">value =</span> <span class="st">&quot;23andMe&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_bind_select_input</span>(</span>
-<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">parameter_name =</span> <span class="st">&quot;kit&quot;</span>,</span>
-<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;Kit type&quot;</span>,</span>
-<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">options =</span> <span class="fu">list</span>(<span class="st">&quot;23andMe&quot;</span>, <span class="st">&quot;Ancestry&quot;</span>, <span class="st">&quot;MyHeritage&quot;</span>)</span>
-<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
-<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_filter</span>(<span class="st">&quot;datum.kit == kit&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">title =</span> <span class="st">&quot;Comparison of Different twins&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># graph for compare twins</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>twin_compare <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">300</span>, <span class="at">height =</span> <span class="dv">300</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(twins_data)<span class="sc">|&gt;</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_bar</span>(<span class="at">cornerRadiusTopLeft =</span> <span class="dv">3</span>, <span class="at">cornerRadiusTopRight =</span> <span class="dv">3</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;twin:N&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;genetic.share:Q&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_color</span>(<span class="st">&quot;region:N&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_scale_color</span>(<span class="at">scheme =</span> <span class="st">&quot;category20&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_config_axisBottom</span>(<span class="at">labelAngle =</span> <span class="dv">0</span>)</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>twin_compare<span class="sc">|&gt;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_parameter</span>(<span class="st">&quot;kit&quot;</span>, <span class="at">value =</span> <span class="st">&quot;23andMe&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_bind_select_input</span>(</span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">parameter_name =</span> <span class="st">&quot;kit&quot;</span>,</span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;Kit type&quot;</span>,</span>
+<span id="cb3-17"><a href="#cb3-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">options =</span> <span class="fu">list</span>(<span class="st">&quot;23andMe&quot;</span>, <span class="st">&quot;Ancestry&quot;</span>, <span class="st">&quot;MyHeritage&quot;</span>)</span>
+<span id="cb3-18"><a href="#cb3-18" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb3-19"><a href="#cb3-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_filter</span>(<span class="st">&quot;datum.kit == kit&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb3-20"><a href="#cb3-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">title =</span> <span class="st">&quot;Comparison of Different twins&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="htmlwidget-05a94db6f45d0b38815c" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-05a94db6f45d0b38815c">{"x":{
+<div id="htmlwidget-f5179d7cdce650480141" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-f5179d7cdce650480141">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "height": 300,
@@ -6068,6 +6057,8 @@ if (HTMLWidgets.shinyMode) {
       ]
     },
     "mark": {
+      "cornerRadiusTopLeft": 3,
+      "cornerRadiusTopRight": 3,
       "type": "bar"
     },
     "encoding": {
@@ -6126,54 +6117,55 @@ if (HTMLWidgets.shinyMode) {
 <section id="exercise-2" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-2">Exercise 2</h2>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the URL of the Excel file</span></span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://calvin-data304.netlify.app/data/swd-lets-practice-ex-7-06.xlsx&quot;</span></span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a temporary file path</span></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>temp_file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">&quot;.xlsx&quot;</span>)</span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the file</span></span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(url, temp_file, <span class="at">mode =</span> <span class="st">&quot;wb&quot;</span>)</span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the Excel file</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>Net_Promoter_Score <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(temp_file)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the URL of the Excel file</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://calvin-data304.netlify.app/data/swd-lets-practice-ex-7-06.xlsx&quot;</span></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a temporary file path</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>temp_file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">&quot;.xlsx&quot;</span>)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the file</span></span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(url, temp_file, <span class="at">mode =</span> <span class="st">&quot;wb&quot;</span>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-10"><a href="#cb4-10" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the Excel file</span></span>
+<span id="cb4-11"><a href="#cb4-11" aria-hidden="true" tabindex="-1"></a>Net_Promoter_Score <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(temp_file)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>Net_Promoter_Score <span class="ot">&lt;-</span> Net_Promoter_Score<span class="sc">|&gt;</span></span>
-<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">net_promoter_score =</span> Promoter <span class="sc">-</span> Detractor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>Net_Promoter_Score <span class="ot">&lt;-</span> Net_Promoter_Score<span class="sc">|&gt;</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">net_promoter_score =</span> Promoter <span class="sc">-</span> Detractor)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div>
 <div class="cell">
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>NPS_l <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
-<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_line</span>()<span class="sc">|&gt;</span></span>
-<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;month:T&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;net_promoter_score:Q&quot;</span>, <span class="at">axis =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">&quot;.0%&quot;</span>))</span>
-<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>NPS_p <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
-<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_point</span>(<span class="at">filled =</span> <span class="cn">TRUE</span>)<span class="sc">|&gt;</span></span>
-<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;month:T&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;net_promoter_score:Q&quot;</span>, <span class="at">axis =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">&quot;.0%&quot;</span>))</span>
-<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>NPS_t <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
-<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_text</span>(<span class="at">dy =</span> <span class="sc">-</span><span class="dv">13</span>, <span class="at">dx =</span> <span class="dv">10</span>)<span class="sc">|&gt;</span></span>
-<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;month:T&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;net_promoter_score:Q&quot;</span>, <span class="at">axis =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">&quot;.0%&quot;</span>))<span class="sc">|&gt;</span></span>
-<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_text</span>(<span class="st">&quot;# of ratings:Q&quot;</span>)</span>
-<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a><span class="fu">vl_layer</span>(NPS_l,NPS_p,NPS_t)<span class="sc">|&gt;</span></span>
-<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">400</span>, <span class="at">height =</span> <span class="dv">200</span>)<span class="sc">|&gt;</span></span>
-<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(Net_Promoter_Score)<span class="sc">|&gt;</span></span>
-<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">title =</span><span class="fu">list</span>(</span>
-<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">&quot;NPS flat increase through time&quot;</span>,</span>
-<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Rating in 2020 February is 518&quot;</span></span>
-<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>NPS_l <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_line</span>(<span class="at">point =</span> <span class="cn">TRUE</span>)<span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;month:T&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;net_promoter_score:Q&quot;</span>, <span class="at">axis =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">&quot;.0%&quot;</span>))<span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_tooltip_array</span>(<span class="fu">list</span>(</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">field =</span> <span class="st">&quot;month&quot;</span>, <span class="at">type =</span> <span class="st">&quot;temporal&quot;</span>, <span class="at">timeUnit =</span> <span class="st">&quot;yearmonth&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Month&quot;</span>),  </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">field =</span> <span class="st">&quot;net_promoter_score&quot;</span>, <span class="at">type =</span> <span class="st">&quot;quantitative&quot;</span>, <span class="at">title =</span> <span class="st">&quot;NPS&quot;</span>, <span class="at">format =</span> <span class="st">&quot;.0%&quot;</span>),</span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">field =</span> <span class="st">&quot;# of ratings&quot;</span>, <span class="at">type =</span> <span class="st">&quot;quantitative&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Ratings&quot;</span>)</span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>NPS_t <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_text</span>(<span class="at">dy =</span> <span class="sc">-</span><span class="dv">13</span>, <span class="at">dx =</span> <span class="dv">10</span>)<span class="sc">|&gt;</span></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;month:T&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;net_promoter_score:Q&quot;</span>, <span class="at">axis =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">&quot;.0%&quot;</span>))<span class="sc">|&gt;</span></span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_text</span>(<span class="st">&quot;# of ratings:Q&quot;</span>)</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a><span class="fu">vl_layer</span>(NPS_l,NPS_t)<span class="sc">|&gt;</span></span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(Net_Promoter_Score)<span class="sc">|&gt;</span></span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">400</span>, <span class="at">height =</span> <span class="dv">200</span>,</span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span><span class="fu">list</span>(</span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">&quot;NPS flat increase through time&quot;</span>,</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Rating in 2020 February is 518&quot;</span></span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <div class="cell-output-display">
-<div id="htmlwidget-40b9ff7be758ddf3a71f" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
-<script type="application/json" data-for="htmlwidget-40b9ff7be758ddf3a71f">{"x":{
+<div id="htmlwidget-4d28350ddd55b0502cea" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-4d28350ddd55b0502cea">{"x":{
   "chart_spec": {
     "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
     "layer": [
       {
         "mark": {
+          "point": true,
           "type": "line"
         },
         "encoding": {
@@ -6187,26 +6179,26 @@ if (HTMLWidgets.shinyMode) {
               "format": ".0%"
             },
             "type": "quantitative"
-          }
-        }
-      },
-      {
-        "mark": {
-          "filled": true,
-          "type": "point"
-        },
-        "encoding": {
-          "x": {
-            "field": "month",
-            "type": "temporal"
           },
-          "y": {
-            "field": "net_promoter_score",
-            "axis": {
+          "tooltip": [
+            {
+              "field": "month",
+              "type": "temporal",
+              "timeUnit": "yearmonth",
+              "title": "Month"
+            },
+            {
+              "field": "net_promoter_score",
+              "type": "quantitative",
+              "title": "NPS",
               "format": ".0%"
             },
-            "type": "quantitative"
-          }
+            {
+              "field": "# of ratings",
+              "type": "quantitative",
+              "title": "Ratings"
+            }
+          ]
         }
       },
       {
@@ -6234,8 +6226,6 @@ if (HTMLWidgets.shinyMode) {
         }
       }
     ],
-    "height": 200,
-    "width": 400,
     "data": {
       "values": [
         {
@@ -6380,10 +6370,12 @@ if (HTMLWidgets.shinyMode) {
         }
       ]
     },
+    "height": 200,
     "title": {
       "text": "NPS flat increase through time",
       "subtitle": "Rating in 2020 February is 518"
-    }
+    },
+    "width": 400
   },
   "embed_options": {
     "renderer": "canvas",
@@ -6396,12 +6388,1511 @@ if (HTMLWidgets.shinyMode) {
 </section>
 <section id="exercise-3" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-3">Exercise 3</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>tanzania_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>  <span class="at">DHS_Survey_Year =</span> <span class="fu">c</span>(<span class="st">&quot;2015-2016&quot;</span>, <span class="st">&quot;2010&quot;</span>, <span class="st">&quot;2004-2005&quot;</span>, <span class="st">&quot;1999&quot;</span>, <span class="st">&quot;1996&quot;</span>, <span class="st">&quot;1991-1992&quot;</span>),</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>  <span class="at">Total_Fertility_Rate =</span> <span class="fu">c</span>(<span class="fl">5.2</span>, <span class="fl">5.4</span>, <span class="fl">5.7</span>, <span class="fl">5.6</span>, <span class="fl">5.8</span>, <span class="fl">6.2</span>),</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>  <span class="at">Modern_Contraception_Use =</span> <span class="fu">c</span>(<span class="fl">38.4</span>, <span class="fl">23.6</span>, <span class="fl">17.6</span>, <span class="fl">15.6</span>, <span class="fl">11.7</span>, <span class="fl">5.9</span>),</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>  <span class="at">Unmet_Need_Family_Planning =</span> <span class="fu">c</span>(<span class="fl">22.1</span>, <span class="fl">22.3</span>, <span class="fl">24.3</span>, <span class="fl">22.3</span>, <span class="fl">26.0</span>, <span class="fl">27.8</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb8"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a>tanzania_data <span class="ot">&lt;-</span> tanzania_data<span class="sc">|&gt;</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate_rows</span>(DHS_Survey_Year, <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Year =</span> DHS_Survey_Year)</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>tanzania_data_l <span class="ot">&lt;-</span> tanzania_data <span class="sc">|&gt;</span></span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(Total_Fertility_Rate<span class="sc">:</span>Unmet_Need_Family_Planning, <span class="at">names_to =</span> <span class="st">&quot;type&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;percent&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(tanzania_data_l)<span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_line</span>(<span class="at">point =</span> <span class="cn">TRUE</span>)<span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;Year:T&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;percent:Q&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_color</span>(<span class="st">&quot;type:N&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">200</span>, <span class="at">height =</span> <span class="dv">150</span>)<span class="sc">|&gt;</span></span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_facet_column</span>(<span class="st">&quot;type:N&quot;</span>, <span class="at">title =</span> <span class="cn">FALSE</span>)<span class="sc">|&gt;</span></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_tooltip_array</span>(<span class="fu">list</span>(</span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">field =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">type =</span> <span class="st">&quot;temporal&quot;</span>),</span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">field =</span> <span class="st">&quot;percent&quot;</span>, <span class="at">type =</span> <span class="st">&quot;quantitative&quot;</span>)</span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  ))<span class="sc">|&gt;</span></span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(</span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Demographis and Health Surveys(DHS)) of Tanzaniz&quot;</span></span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Warning: Invalid schema for object passed to or created by .add_facet</code></pre>
+</div>
+<div class="cell-output-display">
+<div id="htmlwidget-8d1b661884e2d0bbb4a6" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-8d1b661884e2d0bbb4a6">{"x":{
+  "chart_spec": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+      "values": [
+        {
+          "Year": "2015",
+          "type": "Total_Fertility_Rate",
+          "percent": 5.2
+        },
+        {
+          "Year": "2015",
+          "type": "Modern_Contraception_Use",
+          "percent": 38.4
+        },
+        {
+          "Year": "2015",
+          "type": "Unmet_Need_Family_Planning",
+          "percent": 22.1
+        },
+        {
+          "Year": "2016",
+          "type": "Total_Fertility_Rate",
+          "percent": 5.2
+        },
+        {
+          "Year": "2016",
+          "type": "Modern_Contraception_Use",
+          "percent": 38.4
+        },
+        {
+          "Year": "2016",
+          "type": "Unmet_Need_Family_Planning",
+          "percent": 22.1
+        },
+        {
+          "Year": "2010",
+          "type": "Total_Fertility_Rate",
+          "percent": 5.4
+        },
+        {
+          "Year": "2010",
+          "type": "Modern_Contraception_Use",
+          "percent": 23.6
+        },
+        {
+          "Year": "2010",
+          "type": "Unmet_Need_Family_Planning",
+          "percent": 22.3
+        },
+        {
+          "Year": "2004",
+          "type": "Total_Fertility_Rate",
+          "percent": 5.7
+        },
+        {
+          "Year": "2004",
+          "type": "Modern_Contraception_Use",
+          "percent": 17.6
+        },
+        {
+          "Year": "2004",
+          "type": "Unmet_Need_Family_Planning",
+          "percent": 24.3
+        },
+        {
+          "Year": "2005",
+          "type": "Total_Fertility_Rate",
+          "percent": 5.7
+        },
+        {
+          "Year": "2005",
+          "type": "Modern_Contraception_Use",
+          "percent": 17.6
+        },
+        {
+          "Year": "2005",
+          "type": "Unmet_Need_Family_Planning",
+          "percent": 24.3
+        },
+        {
+          "Year": "1999",
+          "type": "Total_Fertility_Rate",
+          "percent": 5.6
+        },
+        {
+          "Year": "1999",
+          "type": "Modern_Contraception_Use",
+          "percent": 15.6
+        },
+        {
+          "Year": "1999",
+          "type": "Unmet_Need_Family_Planning",
+          "percent": 22.3
+        },
+        {
+          "Year": "1996",
+          "type": "Total_Fertility_Rate",
+          "percent": 5.8
+        },
+        {
+          "Year": "1996",
+          "type": "Modern_Contraception_Use",
+          "percent": 11.7
+        },
+        {
+          "Year": "1996",
+          "type": "Unmet_Need_Family_Planning",
+          "percent": 26
+        },
+        {
+          "Year": "1991",
+          "type": "Total_Fertility_Rate",
+          "percent": 6.2
+        },
+        {
+          "Year": "1991",
+          "type": "Modern_Contraception_Use",
+          "percent": 5.9
+        },
+        {
+          "Year": "1991",
+          "type": "Unmet_Need_Family_Planning",
+          "percent": 27.8
+        },
+        {
+          "Year": "1992",
+          "type": "Total_Fertility_Rate",
+          "percent": 6.2
+        },
+        {
+          "Year": "1992",
+          "type": "Modern_Contraception_Use",
+          "percent": 5.9
+        },
+        {
+          "Year": "1992",
+          "type": "Unmet_Need_Family_Planning",
+          "percent": 27.8
+        }
+      ]
+    },
+    "spec": {
+      "mark": {
+        "point": true,
+        "type": "line"
+      },
+      "encoding": {
+        "x": {
+          "field": "Year",
+          "type": "temporal"
+        },
+        "y": {
+          "field": "percent",
+          "type": "quantitative"
+        },
+        "color": {
+          "field": "type",
+          "type": "nominal"
+        },
+        "tooltip": [
+          {
+            "field": "Year",
+            "type": "temporal"
+          },
+          {
+            "field": "percent",
+            "type": "quantitative"
+          }
+        ]
+      },
+      "height": 150,
+      "width": 200
+    },
+    "facet": {
+      "column": {
+        "field": "type",
+        "title": false,
+        "type": "nominal"
+      }
+    },
+    "title": "Demographis and Health Surveys(DHS)) of Tanzaniz"
+  },
+  "embed_options": {
+    "renderer": "canvas",
+    "defaultStyle": true
+  }
+},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>The rate of modern contraception use of Tanzania is increasing through the years, the rate of total fertility and unmet need family planning is decreasing through years. It looks like a good news for Tanzania. I using years for x axis and percent for y axis, facing and color by type of percentage. Also add tooltip help us to know the excatly year and numeber of percentage.</p>
 </section>
 <section id="exercise-4" class="level2">
 <h2 class="anchored" data-anchor-id="exercise-4">Exercise 4</h2>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a>coffee <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;FAOSTAT_data_en_9-29-2023.csv&quot;</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 4958 Columns: 12
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: &quot;,&quot;
+chr (5): Domain Code, Domain, Area, Element, Item
+dbl (6): Area Code (M49), Element Code, Item Code (CPC), Year Code, Year, Value
+lgl (1): Unit
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>coffee_2021 <span class="ot">&lt;-</span> coffee<span class="sc">|&gt;</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2021</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a>coffee_2021 <span class="ot">&lt;-</span> coffee_2021 <span class="sc">|&gt;</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">country_id =</span> <span class="st">`</span><span class="at">Area Code (M49)</span><span class="st">`</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>vega_data <span class="ot">&lt;-</span> altair<span class="sc">::</span><span class="fu">import_vega_data</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>world2_url <span class="ot">&lt;-</span> <span class="st">&#39;https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json&#39;</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a>world_map <span class="ot">&lt;-</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_chart</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(<span class="at">url =</span> world2_url, </span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a>               <span class="at">format =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">&quot;topojson&quot;</span>, <span class="at">feature =</span> <span class="st">&quot;countries&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb16-7"><a href="#cb16-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_geoshape</span>() <span class="sc">|&gt;</span></span>
+<span id="cb16-8"><a href="#cb16-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">800</span>, <span class="at">height =</span> <span class="dv">300</span>)  </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</div>
+<div class="cell">
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a>world_map<span class="sc">|&gt;</span></span>
+<span id="cb17-2"><a href="#cb17-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_lookup</span>(</span>
+<span id="cb17-3"><a href="#cb17-3" aria-hidden="true" tabindex="-1"></a>    <span class="at">lookup =</span> <span class="st">&quot;id&quot;</span>,</span>
+<span id="cb17-4"><a href="#cb17-4" aria-hidden="true" tabindex="-1"></a>    <span class="at">from =</span> <span class="fu">list</span>(</span>
+<span id="cb17-5"><a href="#cb17-5" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> <span class="fu">list</span>(<span class="at">values =</span> coffee_2021),</span>
+<span id="cb17-6"><a href="#cb17-6" aria-hidden="true" tabindex="-1"></a>      <span class="at">key =</span> <span class="st">&quot;country_id&quot;</span>,</span>
+<span id="cb17-7"><a href="#cb17-7" aria-hidden="true" tabindex="-1"></a>      <span class="at">fields =</span> <span class="fu">list</span>(<span class="st">&quot;Value&quot;</span>,<span class="st">&quot;Area&quot;</span>)</span>
+<span id="cb17-8"><a href="#cb17-8" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb17-9"><a href="#cb17-9" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb17-10"><a href="#cb17-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_calculate</span>(<span class="st">&quot;isValid(datum.Value) ? datum.Value : 0&quot;</span>, <span class="at">as =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-11"><a href="#cb17-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_calculate</span>(<span class="st">&quot;isValid(datum.Area) ? datum.Area : &#39;This area do not produce coffee&#39;&quot;</span>, <span class="at">as =</span> <span class="st">&quot;Area&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-12"><a href="#cb17-12" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vl_encode_stroke</span>(<span class="at">value =</span> <span class="st">&quot;transparent&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb17-13"><a href="#cb17-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_fill</span>(<span class="st">&quot;Value:Q&quot;</span>,<span class="at">scale =</span> <span class="fu">list</span>(<span class="at">scheme =</span> <span class="st">&quot;goldgreen&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb17-14"><a href="#cb17-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_legend_fill</span>(<span class="at">title =</span> <span class="st">&quot;Yield&quot;</span>, <span class="at">type =</span> <span class="st">&quot;gradient&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb17-15"><a href="#cb17-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_tooltip_array</span>(<span class="fu">list</span>(<span class="st">&quot;Area&quot;</span>, <span class="st">&quot;Value&quot;</span>))<span class="sc">|&gt;</span></span>
+<span id="cb17-16"><a href="#cb17-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">title =</span><span class="fu">list</span>(</span>
+<span id="cb17-17"><a href="#cb17-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">&quot;World Coffee Production in 2021&quot;</span>,</span>
+<span id="cb17-18"><a href="#cb17-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Unit by Tons (T)&quot;</span></span>
+<span id="cb17-19"><a href="#cb17-19" aria-hidden="true" tabindex="-1"></a>  ))</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="cell-output-display">
+<div id="htmlwidget-783c53c014704387ae2c" style="width:auto;height:auto;" class="vegawidget-vl5 html-widget"></div>
+<script type="application/json" data-for="htmlwidget-783c53c014704387ae2c">{"x":{
+  "chart_spec": {
+    "$schema": "https://vega.github.io/schema/vega-lite/v5.json",
+    "data": {
+      "format": {
+        "type": "topojson",
+        "feature": "countries"
+      },
+      "url": "https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json"
+    },
+    "mark": {
+      "type": "geoshape"
+    },
+    "height": 300,
+    "width": 800,
+    "transform": [
+      {
+        "lookup": "id",
+        "from": {
+          "data": {
+            "values": [
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 24,
+                "Area": "Angola",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 10304
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 84,
+                "Area": "Belize",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 89.62
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 204,
+                "Area": "Benin",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 55
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 68,
+                "Area": "Bolivia (Plurinational State of)",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 23451.98
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 76,
+                "Area": "Brazil",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 2993780
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 108,
+                "Area": "Burundi",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 17100
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 132,
+                "Area": "Cabo Verde",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 40.73
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 116,
+                "Area": "Cambodia",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 375.64
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 120,
+                "Area": "Cameroon",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 36096.13
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 140,
+                "Area": "Central African Republic",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 10061.59
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 159,
+                "Area": "China",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 108906
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 156,
+                "Area": "China, mainland",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 108000
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 158,
+                "Area": "China, Taiwan Province of",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 906
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 170,
+                "Area": "Colombia",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 560340
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 174,
+                "Area": "Comoros",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 139.8
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 178,
+                "Area": "Congo",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 3138.04
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 184,
+                "Area": "Cook Islands",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 0.45
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 188,
+                "Area": "Costa Rica",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 88200
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 384,
+                "Area": "Côte d'Ivoire",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 134700
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 192,
+                "Area": "Cuba",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 9100
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 180,
+                "Area": "Democratic Republic of the Congo",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 54089.21
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 212,
+                "Area": "Dominica",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 230.7
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 214,
+                "Area": "Dominican Republic",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 16186.14
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 218,
+                "Area": "Ecuador",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 4916.87
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 222,
+                "Area": "El Salvador",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 33900
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 226,
+                "Area": "Equatorial Guinea",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 4138.75
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 231,
+                "Area": "Ethiopia",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 456000
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 242,
+                "Area": "Fiji",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 14.05
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 258,
+                "Area": "French Polynesia",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 21.1
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 266,
+                "Area": "Gabon",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 98.72
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 288,
+                "Area": "Ghana",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 736
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 320,
+                "Area": "Guatemala",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 226700
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 324,
+                "Area": "Guinea",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 40273.08
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 328,
+                "Area": "Guyana",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 600
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 332,
+                "Area": "Haiti",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 20700
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 340,
+                "Area": "Honduras",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 400674.42
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 356,
+                "Area": "India",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 334000
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 360,
+                "Area": "Indonesia",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 765415
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 388,
+                "Area": "Jamaica",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 7990
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 404,
+                "Area": "Kenya",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 34500
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 418,
+                "Area": "Lao People's Democratic Republic",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 161200
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 430,
+                "Area": "Liberia",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 630.68
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 450,
+                "Area": "Madagascar",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 44394.54
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 454,
+                "Area": "Malawi",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 10000
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 458,
+                "Area": "Malaysia",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 4150.55
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 480,
+                "Area": "Mauritius",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 0
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 484,
+                "Area": "Mexico",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 174341
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 508,
+                "Area": "Mozambique",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 816.01
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 104,
+                "Area": "Myanmar",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 8928.27
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 524,
+                "Area": "Nepal",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 315
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 540,
+                "Area": "New Caledonia",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 1.72
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 558,
+                "Area": "Nicaragua",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 167831
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 566,
+                "Area": "Nigeria",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 1815.14
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 591,
+                "Area": "Panama",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 6900
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 598,
+                "Area": "Papua New Guinea",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 42480
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 600,
+                "Area": "Paraguay",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 388
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 604,
+                "Area": "Peru",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 365582.14
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 608,
+                "Area": "Philippines",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 60607.18
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 630,
+                "Area": "Puerto Rico",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 4065.88
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 646,
+                "Area": "Rwanda",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 19466.88
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 662,
+                "Area": "Saint Lucia",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 0
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 670,
+                "Area": "Saint Vincent and the Grenadines",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 183.08
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 882,
+                "Area": "Samoa",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 11.32
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 678,
+                "Area": "Sao Tome and Principe",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 7.59
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 694,
+                "Area": "Sierra Leone",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 2400
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 144,
+                "Area": "Sri Lanka",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 5306.2
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 740,
+                "Area": "Suriname",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 6.02
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 764,
+                "Area": "Thailand",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 30000
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 626,
+                "Area": "Timor-Leste",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 13313.98
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 768,
+                "Area": "Togo",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 16817.87
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 776,
+                "Area": "Tonga",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 15.32
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 780,
+                "Area": "Trinidad and Tobago",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 591.4
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 800,
+                "Area": "Uganda",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 374760
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 834,
+                "Area": "United Republic of Tanzania",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 73027
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 840,
+                "Area": "United States of America",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 2270
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 548,
+                "Area": "Vanuatu",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 36.25
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 862,
+                "Area": "Venezuela (Bolivarian Republic of)",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 54134.86
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 704,
+                "Area": "Viet Nam",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 1845032.98
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 887,
+                "Area": "Yemen",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 21077.32
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 894,
+                "Area": "Zambia",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 6636.6
+              },
+              {
+                "Domain Code": "QCL",
+                "Domain": "Crops and livestock products",
+                "country_id": 716,
+                "Area": "Zimbabwe",
+                "Element Code": 5510,
+                "Element": "Production",
+                "Item Code (CPC)": 1610,
+                "Item": "Coffee, green",
+                "Year Code": 2021,
+                "Year": 2021,
+                "Unit": true,
+                "Value": 652.88
+              }
+            ]
+          },
+          "key": "country_id",
+          "fields": [
+            "Value",
+            "Area"
+          ]
+        }
+      },
+      {
+        "calculate": "isValid(datum.Value) ? datum.Value : 0",
+        "as": "Value"
+      },
+      {
+        "calculate": "isValid(datum.Area) ? datum.Area : 'This area do not produce coffee'",
+        "as": "Area"
+      }
+    ],
+    "encoding": {
+      "stroke": {
+        "value": "transparent"
+      },
+      "fill": {
+        "field": "Value",
+        "scale": {
+          "scheme": "goldgreen"
+        },
+        "type": "quantitative",
+        "legend": {
+          "title": "Yield",
+          "type": "gradient"
+        }
+      },
+      "tooltip": [
+        {
+          "field": "Area"
+        },
+        {
+          "field": "Value"
+        }
+      ]
+    },
+    "title": {
+      "text": "World Coffee Production in 2021",
+      "subtitle": "Unit by Tons (T)"
+    }
+  },
+  "embed_options": {
+    "renderer": "canvas",
+    "defaultStyle": true
+  }
+},"evals":[],"jsHooks":[]}</script>
+</div>
+</div>
+<p>This plot show the Distribution of coffee production around the world in 2021. We can see the in 2021， Viet Nam is the biggest coffee producer in the world.</p>
 </section>
-<section id="exercise-6" class="level2">
-<h2 class="anchored" data-anchor-id="exercise-6">Exercise 6</h2>
+<section id="cited" class="level2">
+<h2 class="anchored" data-anchor-id="cited">Cited</h2>
+<p><a href="https://vega.github.io/vega-lite/examples/stacked_bar_count_corner_radius_mark.html">bar chart with rounded corner</a></p>
+<p><a href="https://vega.github.io/vega-lite/examples/line_overlay.html">line with point</a></p>
+<p><a href="https://clauswilke.com/dataviz/time-series.html">Multiple time series and dose–response curves</a></p>
+<p><a href="https://clauswilke.com/dataviz/geospatial-data.html#choropleth-mapping">Choropleth mapping</a></p>
 <!-- -->
 
 </section>
@@ -6868,135 +8359,237 @@ window.document.addEventListener("DOMContentLoaded", function (event) {
   }
 });
 </script><div class="modal fade" id="quarto-embedded-source-code-modal" tabindex="-1" aria-labelledby="quarto-embedded-source-code-modal-label" aria-hidden="true"><div class="modal-dialog modal-dialog-scrollable"><div class="modal-content"><div class="modal-header"><h5 class="modal-title" id="quarto-embedded-source-code-modal-label">Source Code</h5><button class="btn-close" data-bs-dismiss="modal"></button></div><div class="modal-body"><div class>
-<div class="sourceCode" id="cb10" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Final profile&quot;</span></span>
-<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> html</span></span>
-<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> Daniel(Kailun) Jin</span></span>
-<span id="cb10-5"><a href="#cb10-5" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> visual</span></span>
-<span id="cb10-6"><a href="#cb10-6" aria-hidden="true" tabindex="-1"></a><span class="an">code-tools:</span><span class="co"> true</span></span>
-<span id="cb10-7"><a href="#cb10-7" aria-hidden="true" tabindex="-1"></a><span class="an">embed-resources:</span><span class="co"> true</span></span>
-<span id="cb10-8"><a href="#cb10-8" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
-<span id="cb10-9"><a href="#cb10-9" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-12"><a href="#cb10-12" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-13"><a href="#cb10-13" aria-hidden="true" tabindex="-1"></a><span class="co"># library require</span></span>
-<span id="cb10-14"><a href="#cb10-14" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
-<span id="cb10-15"><a href="#cb10-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegabrite)</span>
-<span id="cb10-16"><a href="#cb10-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb10-17"><a href="#cb10-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
-<span id="cb10-18"><a href="#cb10-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-19"><a href="#cb10-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-20"><a href="#cb10-20" aria-hidden="true" tabindex="-1"></a>data:</span>
-<span id="cb10-21"><a href="#cb10-21" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-22"><a href="#cb10-22" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Exercise 1 twins</span><span class="co">](https://calvin-data304.netlify.app/data/twins-genetics-long.csv)</span></span>
-<span id="cb10-23"><a href="#cb10-23" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-24"><a href="#cb10-24" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Exercise 2 Net Promoter Score</span><span class="co">](https://calvin-data304.netlify.app/data/swd-lets-practice-ex-7-06.xlsx)</span></span>
-<span id="cb10-25"><a href="#cb10-25" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-26"><a href="#cb10-26" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise 1</span></span>
-<span id="cb10-27"><a href="#cb10-27" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-30"><a href="#cb10-30" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-31"><a href="#cb10-31" aria-hidden="true" tabindex="-1"></a>twins_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://calvin-data304.netlify.app/data/twins-genetics-long.csv&quot;</span>)</span>
-<span id="cb10-32"><a href="#cb10-32" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-33"><a href="#cb10-33" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-36"><a href="#cb10-36" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-37"><a href="#cb10-37" aria-hidden="true" tabindex="-1"></a><span class="co"># graph for compare kit</span></span>
-<span id="cb10-38"><a href="#cb10-38" aria-hidden="true" tabindex="-1"></a>kit_compare <span class="ot">&lt;-</span><span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
-<span id="cb10-39"><a href="#cb10-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">400</span>, <span class="at">height =</span> <span class="dv">300</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-40"><a href="#cb10-40" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(twins_data)<span class="sc">|&gt;</span></span>
-<span id="cb10-41"><a href="#cb10-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_bar</span>()<span class="sc">|&gt;</span></span>
-<span id="cb10-42"><a href="#cb10-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;kit:N&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-43"><a href="#cb10-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;genetic.share:Q&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-44"><a href="#cb10-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_color</span>(<span class="st">&quot;region:N&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-45"><a href="#cb10-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_xOffset</span>(<span class="st">&quot;twin:N&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-46"><a href="#cb10-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_config_axisBottom</span>(<span class="at">labelAngle =</span> <span class="dv">0</span>)</span>
-<span id="cb10-47"><a href="#cb10-47" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-48"><a href="#cb10-48" aria-hidden="true" tabindex="-1"></a>kit_compare<span class="sc">|&gt;</span></span>
-<span id="cb10-49"><a href="#cb10-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">title =</span> <span class="st">&quot;Comparison of three kits&quot;</span>)</span>
-<span id="cb10-50"><a href="#cb10-50" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-51"><a href="#cb10-51" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-52"><a href="#cb10-52" aria-hidden="true" tabindex="-1"></a>The Ancestry may is the best choice for text the genetic share, because it has the lowest error in the test. The x axis represent three different kits, y axis represent the genetic share of the text. Color represent different region of twin gene come from. Also the xoffset is different people take the test.</span>
-<span id="cb10-53"><a href="#cb10-53" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-56"><a href="#cb10-56" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-57"><a href="#cb10-57" aria-hidden="true" tabindex="-1"></a><span class="co"># graph for compare twins</span></span>
-<span id="cb10-58"><a href="#cb10-58" aria-hidden="true" tabindex="-1"></a>twin_compare <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
-<span id="cb10-59"><a href="#cb10-59" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">300</span>, <span class="at">height =</span> <span class="dv">300</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-60"><a href="#cb10-60" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(twins_data)<span class="sc">|&gt;</span></span>
-<span id="cb10-61"><a href="#cb10-61" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_bar</span>()<span class="sc">|&gt;</span></span>
-<span id="cb10-62"><a href="#cb10-62" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;twin:N&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-63"><a href="#cb10-63" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;genetic.share:Q&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-64"><a href="#cb10-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_color</span>(<span class="st">&quot;region:N&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-65"><a href="#cb10-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_scale_color</span>(<span class="at">scheme =</span> <span class="st">&quot;category20&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-66"><a href="#cb10-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_config_axisBottom</span>(<span class="at">labelAngle =</span> <span class="dv">0</span>)</span>
-<span id="cb10-67"><a href="#cb10-67" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-68"><a href="#cb10-68" aria-hidden="true" tabindex="-1"></a>twin_compare<span class="sc">|&gt;</span></span>
-<span id="cb10-69"><a href="#cb10-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_parameter</span>(<span class="st">&quot;kit&quot;</span>, <span class="at">value =</span> <span class="st">&quot;23andMe&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-70"><a href="#cb10-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_bind_select_input</span>(</span>
-<span id="cb10-71"><a href="#cb10-71" aria-hidden="true" tabindex="-1"></a>    <span class="at">parameter_name =</span> <span class="st">&quot;kit&quot;</span>,</span>
-<span id="cb10-72"><a href="#cb10-72" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;Kit type&quot;</span>,</span>
-<span id="cb10-73"><a href="#cb10-73" aria-hidden="true" tabindex="-1"></a>    <span class="at">options =</span> <span class="fu">list</span>(<span class="st">&quot;23andMe&quot;</span>, <span class="st">&quot;Ancestry&quot;</span>, <span class="st">&quot;MyHeritage&quot;</span>)</span>
-<span id="cb10-74"><a href="#cb10-74" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
-<span id="cb10-75"><a href="#cb10-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_filter</span>(<span class="st">&quot;datum.kit == kit&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-76"><a href="#cb10-76" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">title =</span> <span class="st">&quot;Comparison of Different twins&quot;</span>)</span>
-<span id="cb10-77"><a href="#cb10-77" aria-hidden="true" tabindex="-1"></a>  </span>
-<span id="cb10-78"><a href="#cb10-78" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-79"><a href="#cb10-79" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-80"><a href="#cb10-80" aria-hidden="true" tabindex="-1"></a>Twins always have the same gene region, however the percentage of them may little difference. X axis represent different people take the test, same number means they are twins. y axis represent the genetic share percent. Different color mean the region of gene from.</span>
-<span id="cb10-81"><a href="#cb10-81" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-82"><a href="#cb10-82" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise 2</span></span>
-<span id="cb10-83"><a href="#cb10-83" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-86"><a href="#cb10-86" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-87"><a href="#cb10-87" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the URL of the Excel file</span></span>
-<span id="cb10-88"><a href="#cb10-88" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://calvin-data304.netlify.app/data/swd-lets-practice-ex-7-06.xlsx&quot;</span></span>
-<span id="cb10-89"><a href="#cb10-89" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-90"><a href="#cb10-90" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a temporary file path</span></span>
-<span id="cb10-91"><a href="#cb10-91" aria-hidden="true" tabindex="-1"></a>temp_file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">&quot;.xlsx&quot;</span>)</span>
-<span id="cb10-92"><a href="#cb10-92" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-93"><a href="#cb10-93" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the file</span></span>
-<span id="cb10-94"><a href="#cb10-94" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(url, temp_file, <span class="at">mode =</span> <span class="st">&quot;wb&quot;</span>)</span>
-<span id="cb10-95"><a href="#cb10-95" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-96"><a href="#cb10-96" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the Excel file</span></span>
-<span id="cb10-97"><a href="#cb10-97" aria-hidden="true" tabindex="-1"></a>Net_Promoter_Score <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(temp_file)</span>
-<span id="cb10-98"><a href="#cb10-98" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-99"><a href="#cb10-99" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-100"><a href="#cb10-100" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-103"><a href="#cb10-103" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-104"><a href="#cb10-104" aria-hidden="true" tabindex="-1"></a>Net_Promoter_Score <span class="ot">&lt;-</span> Net_Promoter_Score<span class="sc">|&gt;</span></span>
-<span id="cb10-105"><a href="#cb10-105" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">net_promoter_score =</span> Promoter <span class="sc">-</span> Detractor)</span>
-<span id="cb10-106"><a href="#cb10-106" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-107"><a href="#cb10-107" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-110"><a href="#cb10-110" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
-<span id="cb10-111"><a href="#cb10-111" aria-hidden="true" tabindex="-1"></a>NPS_l <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
-<span id="cb10-112"><a href="#cb10-112" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_line</span>()<span class="sc">|&gt;</span></span>
-<span id="cb10-113"><a href="#cb10-113" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;month:T&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-114"><a href="#cb10-114" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;net_promoter_score:Q&quot;</span>, <span class="at">axis =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">&quot;.0%&quot;</span>))</span>
-<span id="cb10-115"><a href="#cb10-115" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-116"><a href="#cb10-116" aria-hidden="true" tabindex="-1"></a>NPS_p <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
-<span id="cb10-117"><a href="#cb10-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_point</span>(<span class="at">filled =</span> <span class="cn">TRUE</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-118"><a href="#cb10-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;month:T&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-119"><a href="#cb10-119" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;net_promoter_score:Q&quot;</span>, <span class="at">axis =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">&quot;.0%&quot;</span>))</span>
-<span id="cb10-120"><a href="#cb10-120" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-121"><a href="#cb10-121" aria-hidden="true" tabindex="-1"></a>NPS_t <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
-<span id="cb10-122"><a href="#cb10-122" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_text</span>(<span class="at">dy =</span> <span class="sc">-</span><span class="dv">13</span>, <span class="at">dx =</span> <span class="dv">10</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-123"><a href="#cb10-123" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;month:T&quot;</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-124"><a href="#cb10-124" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;net_promoter_score:Q&quot;</span>, <span class="at">axis =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">&quot;.0%&quot;</span>))<span class="sc">|&gt;</span></span>
-<span id="cb10-125"><a href="#cb10-125" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_text</span>(<span class="st">&quot;# of ratings:Q&quot;</span>)</span>
-<span id="cb10-126"><a href="#cb10-126" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-127"><a href="#cb10-127" aria-hidden="true" tabindex="-1"></a><span class="fu">vl_layer</span>(NPS_l,NPS_p,NPS_t)<span class="sc">|&gt;</span></span>
-<span id="cb10-128"><a href="#cb10-128" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">400</span>, <span class="at">height =</span> <span class="dv">200</span>)<span class="sc">|&gt;</span></span>
-<span id="cb10-129"><a href="#cb10-129" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(Net_Promoter_Score)<span class="sc">|&gt;</span></span>
-<span id="cb10-130"><a href="#cb10-130" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">title =</span><span class="fu">list</span>(</span>
-<span id="cb10-131"><a href="#cb10-131" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">&quot;NPS flat increase through time&quot;</span>,</span>
-<span id="cb10-132"><a href="#cb10-132" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Rating in 2020 February is 518&quot;</span></span>
-<span id="cb10-133"><a href="#cb10-133" aria-hidden="true" tabindex="-1"></a>  ))</span>
-<span id="cb10-134"><a href="#cb10-134" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
-<span id="cb10-135"><a href="#cb10-135" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-136"><a href="#cb10-136" aria-hidden="true" tabindex="-1"></a>The net promoter score of our company increase and remain flat through times, and our rat in 2020 February is 518. It is kind of low, but the best thing is our score is increasing. </span>
-<span id="cb10-137"><a href="#cb10-137" aria-hidden="true" tabindex="-1"></a>X axis represent each month, and the y axis represent the NPS, line and point shows the NPS, the text is the rating of our company through times</span>
-<span id="cb10-138"><a href="#cb10-138" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-139"><a href="#cb10-139" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise 3</span></span>
-<span id="cb10-140"><a href="#cb10-140" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-141"><a href="#cb10-141" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise 4</span></span>
-<span id="cb10-142"><a href="#cb10-142" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb10-143"><a href="#cb10-143" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise 6</span></span>
+<div class="sourceCode" id="cb18" data-shortcodes="false"><pre class="sourceCode markdown code-with-copy"><code class="sourceCode markdown"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="an">title:</span><span class="co"> &quot;Final profile&quot;</span></span>
+<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a><span class="an">format:</span><span class="co"> html</span></span>
+<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a><span class="an">author:</span><span class="co"> Daniel(Kailun) Jin</span></span>
+<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a><span class="an">editor:</span><span class="co"> source</span></span>
+<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a><span class="an">code-tools:</span><span class="co"> true</span></span>
+<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a><span class="an">embed-resources:</span><span class="co"> true</span></span>
+<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a><span class="co">---</span></span>
+<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-13"><a href="#cb18-13" aria-hidden="true" tabindex="-1"></a><span class="co">#| include: false</span></span>
+<span id="cb18-14"><a href="#cb18-14" aria-hidden="true" tabindex="-1"></a><span class="co"># library require</span></span>
+<span id="cb18-15"><a href="#cb18-15" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(vegabrite)</span>
+<span id="cb18-16"><a href="#cb18-16" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb18-17"><a href="#cb18-17" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(readxl)</span>
+<span id="cb18-18"><a href="#cb18-18" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-19"><a href="#cb18-19" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-20"><a href="#cb18-20" aria-hidden="true" tabindex="-1"></a><span class="fu">## data:</span></span>
+<span id="cb18-21"><a href="#cb18-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-22"><a href="#cb18-22" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Exercise 1 twins</span><span class="co">](https://calvin-data304.netlify.app/data/twins-genetics-long.csv)</span></span>
+<span id="cb18-23"><a href="#cb18-23" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-24"><a href="#cb18-24" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Exercise 2 Net Promoter Score</span><span class="co">](https://calvin-data304.netlify.app/data/swd-lets-practice-ex-7-06.xlsx)</span></span>
+<span id="cb18-25"><a href="#cb18-25" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-26"><a href="#cb18-26" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Exercise 3 Tanzania</span><span class="co">](https://dhsprogram.com/Countries/Country-Main.cfm?ctry_id=39&amp;c=Tanzania&amp;Country=Tanzania&amp;cn=&amp;r=1)</span></span>
+<span id="cb18-27"><a href="#cb18-27" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-28"><a href="#cb18-28" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Exercise 4 coffee production</span><span class="co">](https://www.fao.org/faostat/en/#data/QCL)</span></span>
+<span id="cb18-29"><a href="#cb18-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-30"><a href="#cb18-30" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise 1</span></span>
+<span id="cb18-31"><a href="#cb18-31" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-34"><a href="#cb18-34" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-35"><a href="#cb18-35" aria-hidden="true" tabindex="-1"></a>twins_data <span class="ot">&lt;-</span> <span class="fu">read.csv</span>(<span class="st">&quot;https://calvin-data304.netlify.app/data/twins-genetics-long.csv&quot;</span>)</span>
+<span id="cb18-36"><a href="#cb18-36" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-37"><a href="#cb18-37" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-40"><a href="#cb18-40" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-41"><a href="#cb18-41" aria-hidden="true" tabindex="-1"></a><span class="co"># graph for compare kit</span></span>
+<span id="cb18-42"><a href="#cb18-42" aria-hidden="true" tabindex="-1"></a>kit_compare <span class="ot">&lt;-</span><span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
+<span id="cb18-43"><a href="#cb18-43" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">400</span>, <span class="at">height =</span> <span class="dv">300</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-44"><a href="#cb18-44" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(twins_data)<span class="sc">|&gt;</span></span>
+<span id="cb18-45"><a href="#cb18-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_bar</span>()<span class="sc">|&gt;</span></span>
+<span id="cb18-46"><a href="#cb18-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;kit:N&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-47"><a href="#cb18-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;genetic.share:Q&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-48"><a href="#cb18-48" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_color</span>(<span class="st">&quot;region:N&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-49"><a href="#cb18-49" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_scale_color</span>(<span class="at">scheme =</span> <span class="st">&quot;category20&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-50"><a href="#cb18-50" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_xOffset</span>(<span class="st">&quot;twin:N&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-51"><a href="#cb18-51" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_config_axisBottom</span>(<span class="at">labelAngle =</span> <span class="dv">0</span>)</span>
+<span id="cb18-52"><a href="#cb18-52" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-53"><a href="#cb18-53" aria-hidden="true" tabindex="-1"></a>kit_compare<span class="sc">|&gt;</span></span>
+<span id="cb18-54"><a href="#cb18-54" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">title =</span> <span class="st">&quot;Comparison of three kits&quot;</span>)</span>
+<span id="cb18-55"><a href="#cb18-55" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-56"><a href="#cb18-56" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-57"><a href="#cb18-57" aria-hidden="true" tabindex="-1"></a>The Ancestry may is the best choice for text the genetic share, because it has the lowest error in the test. The x axis represent three different kits, y axis represent the genetic share of the text. Color represent different region of twin gene come from. Also the xoffset is different people take the test.</span>
+<span id="cb18-58"><a href="#cb18-58" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-61"><a href="#cb18-61" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-62"><a href="#cb18-62" aria-hidden="true" tabindex="-1"></a><span class="co"># graph for compare twins</span></span>
+<span id="cb18-63"><a href="#cb18-63" aria-hidden="true" tabindex="-1"></a>twin_compare <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
+<span id="cb18-64"><a href="#cb18-64" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">300</span>, <span class="at">height =</span> <span class="dv">300</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-65"><a href="#cb18-65" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(twins_data)<span class="sc">|&gt;</span></span>
+<span id="cb18-66"><a href="#cb18-66" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_bar</span>(<span class="at">cornerRadiusTopLeft =</span> <span class="dv">3</span>, <span class="at">cornerRadiusTopRight =</span> <span class="dv">3</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-67"><a href="#cb18-67" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;twin:N&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-68"><a href="#cb18-68" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;genetic.share:Q&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-69"><a href="#cb18-69" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_color</span>(<span class="st">&quot;region:N&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-70"><a href="#cb18-70" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_scale_color</span>(<span class="at">scheme =</span> <span class="st">&quot;category20&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-71"><a href="#cb18-71" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_config_axisBottom</span>(<span class="at">labelAngle =</span> <span class="dv">0</span>)</span>
+<span id="cb18-72"><a href="#cb18-72" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-73"><a href="#cb18-73" aria-hidden="true" tabindex="-1"></a>twin_compare<span class="sc">|&gt;</span></span>
+<span id="cb18-74"><a href="#cb18-74" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_parameter</span>(<span class="st">&quot;kit&quot;</span>, <span class="at">value =</span> <span class="st">&quot;23andMe&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-75"><a href="#cb18-75" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_bind_select_input</span>(</span>
+<span id="cb18-76"><a href="#cb18-76" aria-hidden="true" tabindex="-1"></a>    <span class="at">parameter_name =</span> <span class="st">&quot;kit&quot;</span>,</span>
+<span id="cb18-77"><a href="#cb18-77" aria-hidden="true" tabindex="-1"></a>    <span class="at">name =</span> <span class="st">&quot;Kit type&quot;</span>,</span>
+<span id="cb18-78"><a href="#cb18-78" aria-hidden="true" tabindex="-1"></a>    <span class="at">options =</span> <span class="fu">list</span>(<span class="st">&quot;23andMe&quot;</span>, <span class="st">&quot;Ancestry&quot;</span>, <span class="st">&quot;MyHeritage&quot;</span>)</span>
+<span id="cb18-79"><a href="#cb18-79" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb18-80"><a href="#cb18-80" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_filter</span>(<span class="st">&quot;datum.kit == kit&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-81"><a href="#cb18-81" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">title =</span> <span class="st">&quot;Comparison of Different twins&quot;</span>)</span>
+<span id="cb18-82"><a href="#cb18-82" aria-hidden="true" tabindex="-1"></a>  </span>
+<span id="cb18-83"><a href="#cb18-83" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-84"><a href="#cb18-84" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-85"><a href="#cb18-85" aria-hidden="true" tabindex="-1"></a>Twins always have the same gene region, however the percentage of them may little difference. X axis represent different people take the test, same number means they are twins. y axis represent the genetic share percent. Different color mean the region of gene from.</span>
+<span id="cb18-86"><a href="#cb18-86" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-87"><a href="#cb18-87" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise 2</span></span>
+<span id="cb18-88"><a href="#cb18-88" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-91"><a href="#cb18-91" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-92"><a href="#cb18-92" aria-hidden="true" tabindex="-1"></a><span class="co"># Define the URL of the Excel file</span></span>
+<span id="cb18-93"><a href="#cb18-93" aria-hidden="true" tabindex="-1"></a>url <span class="ot">&lt;-</span> <span class="st">&quot;https://calvin-data304.netlify.app/data/swd-lets-practice-ex-7-06.xlsx&quot;</span></span>
+<span id="cb18-94"><a href="#cb18-94" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-95"><a href="#cb18-95" aria-hidden="true" tabindex="-1"></a><span class="co"># Define a temporary file path</span></span>
+<span id="cb18-96"><a href="#cb18-96" aria-hidden="true" tabindex="-1"></a>temp_file <span class="ot">&lt;-</span> <span class="fu">tempfile</span>(<span class="at">fileext =</span> <span class="st">&quot;.xlsx&quot;</span>)</span>
+<span id="cb18-97"><a href="#cb18-97" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-98"><a href="#cb18-98" aria-hidden="true" tabindex="-1"></a><span class="co"># Download the file</span></span>
+<span id="cb18-99"><a href="#cb18-99" aria-hidden="true" tabindex="-1"></a><span class="fu">download.file</span>(url, temp_file, <span class="at">mode =</span> <span class="st">&quot;wb&quot;</span>)</span>
+<span id="cb18-100"><a href="#cb18-100" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-101"><a href="#cb18-101" aria-hidden="true" tabindex="-1"></a><span class="co"># Read the Excel file</span></span>
+<span id="cb18-102"><a href="#cb18-102" aria-hidden="true" tabindex="-1"></a>Net_Promoter_Score <span class="ot">&lt;-</span> <span class="fu">read_excel</span>(temp_file)</span>
+<span id="cb18-103"><a href="#cb18-103" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-104"><a href="#cb18-104" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-105"><a href="#cb18-105" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-108"><a href="#cb18-108" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-109"><a href="#cb18-109" aria-hidden="true" tabindex="-1"></a>Net_Promoter_Score <span class="ot">&lt;-</span> Net_Promoter_Score<span class="sc">|&gt;</span></span>
+<span id="cb18-110"><a href="#cb18-110" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(<span class="at">net_promoter_score =</span> Promoter <span class="sc">-</span> Detractor)</span>
+<span id="cb18-111"><a href="#cb18-111" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-112"><a href="#cb18-112" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-115"><a href="#cb18-115" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-116"><a href="#cb18-116" aria-hidden="true" tabindex="-1"></a>NPS_l <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
+<span id="cb18-117"><a href="#cb18-117" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_line</span>(<span class="at">point =</span> <span class="cn">TRUE</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-118"><a href="#cb18-118" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;month:T&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-119"><a href="#cb18-119" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;net_promoter_score:Q&quot;</span>, <span class="at">axis =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">&quot;.0%&quot;</span>))<span class="sc">|&gt;</span></span>
+<span id="cb18-120"><a href="#cb18-120" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_tooltip_array</span>(<span class="fu">list</span>(</span>
+<span id="cb18-121"><a href="#cb18-121" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">field =</span> <span class="st">&quot;month&quot;</span>, <span class="at">type =</span> <span class="st">&quot;temporal&quot;</span>, <span class="at">timeUnit =</span> <span class="st">&quot;yearmonth&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Month&quot;</span>),  </span>
+<span id="cb18-122"><a href="#cb18-122" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">field =</span> <span class="st">&quot;net_promoter_score&quot;</span>, <span class="at">type =</span> <span class="st">&quot;quantitative&quot;</span>, <span class="at">title =</span> <span class="st">&quot;NPS&quot;</span>, <span class="at">format =</span> <span class="st">&quot;.0%&quot;</span>),</span>
+<span id="cb18-123"><a href="#cb18-123" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">field =</span> <span class="st">&quot;# of ratings&quot;</span>, <span class="at">type =</span> <span class="st">&quot;quantitative&quot;</span>, <span class="at">title =</span> <span class="st">&quot;Ratings&quot;</span>)</span>
+<span id="cb18-124"><a href="#cb18-124" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb18-125"><a href="#cb18-125" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-126"><a href="#cb18-126" aria-hidden="true" tabindex="-1"></a>NPS_t <span class="ot">&lt;-</span> <span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
+<span id="cb18-127"><a href="#cb18-127" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_text</span>(<span class="at">dy =</span> <span class="sc">-</span><span class="dv">13</span>, <span class="at">dx =</span> <span class="dv">10</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-128"><a href="#cb18-128" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;month:T&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-129"><a href="#cb18-129" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;net_promoter_score:Q&quot;</span>, <span class="at">axis =</span> <span class="fu">list</span>(<span class="at">format =</span> <span class="st">&quot;.0%&quot;</span>))<span class="sc">|&gt;</span></span>
+<span id="cb18-130"><a href="#cb18-130" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_text</span>(<span class="st">&quot;# of ratings:Q&quot;</span>)</span>
+<span id="cb18-131"><a href="#cb18-131" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-132"><a href="#cb18-132" aria-hidden="true" tabindex="-1"></a><span class="fu">vl_layer</span>(NPS_l,NPS_t)<span class="sc">|&gt;</span></span>
+<span id="cb18-133"><a href="#cb18-133" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(Net_Promoter_Score)<span class="sc">|&gt;</span></span>
+<span id="cb18-134"><a href="#cb18-134" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">400</span>, <span class="at">height =</span> <span class="dv">200</span>,</span>
+<span id="cb18-135"><a href="#cb18-135" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span><span class="fu">list</span>(</span>
+<span id="cb18-136"><a href="#cb18-136" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">&quot;NPS flat increase through time&quot;</span>,</span>
+<span id="cb18-137"><a href="#cb18-137" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Rating in 2020 February is 518&quot;</span></span>
+<span id="cb18-138"><a href="#cb18-138" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb18-139"><a href="#cb18-139" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-140"><a href="#cb18-140" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-141"><a href="#cb18-141" aria-hidden="true" tabindex="-1"></a>The net promoter score of our company increase and remain flat through times, and our rat in 2020 February is 518. It is kind of low, but the best thing is our score is increasing. X axis represent each month, and the y axis represent the NPS, line and point shows the NPS, the text is the rating of our company through times</span>
+<span id="cb18-142"><a href="#cb18-142" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-143"><a href="#cb18-143" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise 3</span></span>
+<span id="cb18-144"><a href="#cb18-144" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-147"><a href="#cb18-147" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-148"><a href="#cb18-148" aria-hidden="true" tabindex="-1"></a>tanzania_data <span class="ot">&lt;-</span> <span class="fu">data.frame</span>(</span>
+<span id="cb18-149"><a href="#cb18-149" aria-hidden="true" tabindex="-1"></a>  <span class="at">DHS_Survey_Year =</span> <span class="fu">c</span>(<span class="st">&quot;2015-2016&quot;</span>, <span class="st">&quot;2010&quot;</span>, <span class="st">&quot;2004-2005&quot;</span>, <span class="st">&quot;1999&quot;</span>, <span class="st">&quot;1996&quot;</span>, <span class="st">&quot;1991-1992&quot;</span>),</span>
+<span id="cb18-150"><a href="#cb18-150" aria-hidden="true" tabindex="-1"></a>  <span class="at">Total_Fertility_Rate =</span> <span class="fu">c</span>(<span class="fl">5.2</span>, <span class="fl">5.4</span>, <span class="fl">5.7</span>, <span class="fl">5.6</span>, <span class="fl">5.8</span>, <span class="fl">6.2</span>),</span>
+<span id="cb18-151"><a href="#cb18-151" aria-hidden="true" tabindex="-1"></a>  <span class="at">Modern_Contraception_Use =</span> <span class="fu">c</span>(<span class="fl">38.4</span>, <span class="fl">23.6</span>, <span class="fl">17.6</span>, <span class="fl">15.6</span>, <span class="fl">11.7</span>, <span class="fl">5.9</span>),</span>
+<span id="cb18-152"><a href="#cb18-152" aria-hidden="true" tabindex="-1"></a>  <span class="at">Unmet_Need_Family_Planning =</span> <span class="fu">c</span>(<span class="fl">22.1</span>, <span class="fl">22.3</span>, <span class="fl">24.3</span>, <span class="fl">22.3</span>, <span class="fl">26.0</span>, <span class="fl">27.8</span>)</span>
+<span id="cb18-153"><a href="#cb18-153" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb18-154"><a href="#cb18-154" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-155"><a href="#cb18-155" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-158"><a href="#cb18-158" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-159"><a href="#cb18-159" aria-hidden="true" tabindex="-1"></a>tanzania_data <span class="ot">&lt;-</span> tanzania_data<span class="sc">|&gt;</span></span>
+<span id="cb18-160"><a href="#cb18-160" aria-hidden="true" tabindex="-1"></a>  <span class="fu">separate_rows</span>(DHS_Survey_Year, <span class="at">sep =</span> <span class="st">&quot;-&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-161"><a href="#cb18-161" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">Year =</span> DHS_Survey_Year)</span>
+<span id="cb18-162"><a href="#cb18-162" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-163"><a href="#cb18-163" aria-hidden="true" tabindex="-1"></a>tanzania_data_l <span class="ot">&lt;-</span> tanzania_data <span class="sc">|&gt;</span></span>
+<span id="cb18-164"><a href="#cb18-164" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(Total_Fertility_Rate<span class="sc">:</span>Unmet_Need_Family_Planning, <span class="at">names_to =</span> <span class="st">&quot;type&quot;</span>, <span class="at">values_to =</span> <span class="st">&quot;percent&quot;</span>)</span>
+<span id="cb18-165"><a href="#cb18-165" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-166"><a href="#cb18-166" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-169"><a href="#cb18-169" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-170"><a href="#cb18-170" aria-hidden="true" tabindex="-1"></a><span class="fu">vl_chart</span>()<span class="sc">|&gt;</span></span>
+<span id="cb18-171"><a href="#cb18-171" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(tanzania_data_l)<span class="sc">|&gt;</span></span>
+<span id="cb18-172"><a href="#cb18-172" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_line</span>(<span class="at">point =</span> <span class="cn">TRUE</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-173"><a href="#cb18-173" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_x</span>(<span class="st">&quot;Year:T&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-174"><a href="#cb18-174" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_y</span>(<span class="st">&quot;percent:Q&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-175"><a href="#cb18-175" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_color</span>(<span class="st">&quot;type:N&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-176"><a href="#cb18-176" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">200</span>, <span class="at">height =</span> <span class="dv">150</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-177"><a href="#cb18-177" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_facet_column</span>(<span class="st">&quot;type:N&quot;</span>, <span class="at">title =</span> <span class="cn">FALSE</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-178"><a href="#cb18-178" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_tooltip_array</span>(<span class="fu">list</span>(</span>
+<span id="cb18-179"><a href="#cb18-179" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">field =</span> <span class="st">&quot;Year&quot;</span>, <span class="at">type =</span> <span class="st">&quot;temporal&quot;</span>),</span>
+<span id="cb18-180"><a href="#cb18-180" aria-hidden="true" tabindex="-1"></a>    <span class="fu">list</span>(<span class="at">field =</span> <span class="st">&quot;percent&quot;</span>, <span class="at">type =</span> <span class="st">&quot;quantitative&quot;</span>)</span>
+<span id="cb18-181"><a href="#cb18-181" aria-hidden="true" tabindex="-1"></a>  ))<span class="sc">|&gt;</span></span>
+<span id="cb18-182"><a href="#cb18-182" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(</span>
+<span id="cb18-183"><a href="#cb18-183" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">&quot;Demographis and Health Surveys(DHS)) of Tanzaniz&quot;</span></span>
+<span id="cb18-184"><a href="#cb18-184" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb18-185"><a href="#cb18-185" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-186"><a href="#cb18-186" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-187"><a href="#cb18-187" aria-hidden="true" tabindex="-1"></a>The rate of modern contraception use of Tanzania is increasing through the years, the rate of total fertility and unmet need family planning is decreasing through years. It looks like a good news for Tanzania. I using years for x axis and percent for y axis, facing and color by type of percentage. Also add tooltip help us to know the excatly year and numeber of percentage.</span>
+<span id="cb18-188"><a href="#cb18-188" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-189"><a href="#cb18-189" aria-hidden="true" tabindex="-1"></a><span class="fu">## Exercise 4</span></span>
+<span id="cb18-192"><a href="#cb18-192" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-193"><a href="#cb18-193" aria-hidden="true" tabindex="-1"></a>coffee <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">&quot;FAOSTAT_data_en_9-29-2023.csv&quot;</span>)</span>
+<span id="cb18-194"><a href="#cb18-194" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-197"><a href="#cb18-197" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-198"><a href="#cb18-198" aria-hidden="true" tabindex="-1"></a>coffee_2021 <span class="ot">&lt;-</span> coffee<span class="sc">|&gt;</span></span>
+<span id="cb18-199"><a href="#cb18-199" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(Year <span class="sc">==</span> <span class="dv">2021</span>)</span>
+<span id="cb18-200"><a href="#cb18-200" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-201"><a href="#cb18-201" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-204"><a href="#cb18-204" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-205"><a href="#cb18-205" aria-hidden="true" tabindex="-1"></a>coffee_2021 <span class="ot">&lt;-</span> coffee_2021 <span class="sc">|&gt;</span></span>
+<span id="cb18-206"><a href="#cb18-206" aria-hidden="true" tabindex="-1"></a>  <span class="fu">rename</span>(<span class="at">country_id =</span> <span class="st">`</span><span class="at">Area Code (M49)</span><span class="st">`</span>)</span>
+<span id="cb18-207"><a href="#cb18-207" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-208"><a href="#cb18-208" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-211"><a href="#cb18-211" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-212"><a href="#cb18-212" aria-hidden="true" tabindex="-1"></a>vega_data <span class="ot">&lt;-</span> altair<span class="sc">::</span><span class="fu">import_vega_data</span>()</span>
+<span id="cb18-213"><a href="#cb18-213" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-214"><a href="#cb18-214" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-217"><a href="#cb18-217" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-218"><a href="#cb18-218" aria-hidden="true" tabindex="-1"></a>world2_url <span class="ot">&lt;-</span> <span class="st">&#39;https://cdn.jsdelivr.net/npm/world-atlas@2/countries-110m.json&#39;</span></span>
+<span id="cb18-219"><a href="#cb18-219" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-220"><a href="#cb18-220" aria-hidden="true" tabindex="-1"></a>world_map <span class="ot">&lt;-</span></span>
+<span id="cb18-221"><a href="#cb18-221" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_chart</span>() <span class="sc">|&gt;</span></span>
+<span id="cb18-222"><a href="#cb18-222" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_data</span>(<span class="at">url =</span> world2_url, </span>
+<span id="cb18-223"><a href="#cb18-223" aria-hidden="true" tabindex="-1"></a>               <span class="at">format =</span> <span class="fu">list</span>(<span class="at">type =</span> <span class="st">&quot;topojson&quot;</span>, <span class="at">feature =</span> <span class="st">&quot;countries&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb18-224"><a href="#cb18-224" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_mark_geoshape</span>() <span class="sc">|&gt;</span></span>
+<span id="cb18-225"><a href="#cb18-225" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">width =</span> <span class="dv">800</span>, <span class="at">height =</span> <span class="dv">300</span>)  </span>
+<span id="cb18-226"><a href="#cb18-226" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-227"><a href="#cb18-227" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-228"><a href="#cb18-228" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-231"><a href="#cb18-231" aria-hidden="true" tabindex="-1"></a><span class="in">```{r}</span></span>
+<span id="cb18-232"><a href="#cb18-232" aria-hidden="true" tabindex="-1"></a>world_map<span class="sc">|&gt;</span></span>
+<span id="cb18-233"><a href="#cb18-233" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_lookup</span>(</span>
+<span id="cb18-234"><a href="#cb18-234" aria-hidden="true" tabindex="-1"></a>    <span class="at">lookup =</span> <span class="st">&quot;id&quot;</span>,</span>
+<span id="cb18-235"><a href="#cb18-235" aria-hidden="true" tabindex="-1"></a>    <span class="at">from =</span> <span class="fu">list</span>(</span>
+<span id="cb18-236"><a href="#cb18-236" aria-hidden="true" tabindex="-1"></a>      <span class="at">data =</span> <span class="fu">list</span>(<span class="at">values =</span> coffee_2021),</span>
+<span id="cb18-237"><a href="#cb18-237" aria-hidden="true" tabindex="-1"></a>      <span class="at">key =</span> <span class="st">&quot;country_id&quot;</span>,</span>
+<span id="cb18-238"><a href="#cb18-238" aria-hidden="true" tabindex="-1"></a>      <span class="at">fields =</span> <span class="fu">list</span>(<span class="st">&quot;Value&quot;</span>,<span class="st">&quot;Area&quot;</span>)</span>
+<span id="cb18-239"><a href="#cb18-239" aria-hidden="true" tabindex="-1"></a>    )</span>
+<span id="cb18-240"><a href="#cb18-240" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb18-241"><a href="#cb18-241" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_calculate</span>(<span class="st">&quot;isValid(datum.Value) ? datum.Value : 0&quot;</span>, <span class="at">as =</span> <span class="st">&quot;Value&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-242"><a href="#cb18-242" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_calculate</span>(<span class="st">&quot;isValid(datum.Area) ? datum.Area : &#39;This area do not produce coffee&#39;&quot;</span>, <span class="at">as =</span> <span class="st">&quot;Area&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-243"><a href="#cb18-243" aria-hidden="true" tabindex="-1"></a>    <span class="fu">vl_encode_stroke</span>(<span class="at">value =</span> <span class="st">&quot;transparent&quot;</span>) <span class="sc">|&gt;</span></span>
+<span id="cb18-244"><a href="#cb18-244" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_fill</span>(<span class="st">&quot;Value:Q&quot;</span>,<span class="at">scale =</span> <span class="fu">list</span>(<span class="at">scheme =</span> <span class="st">&quot;goldgreen&quot;</span>)) <span class="sc">|&gt;</span></span>
+<span id="cb18-245"><a href="#cb18-245" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_legend_fill</span>(<span class="at">title =</span> <span class="st">&quot;Yield&quot;</span>, <span class="at">type =</span> <span class="st">&quot;gradient&quot;</span>)<span class="sc">|&gt;</span></span>
+<span id="cb18-246"><a href="#cb18-246" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_encode_tooltip_array</span>(<span class="fu">list</span>(<span class="st">&quot;Area&quot;</span>, <span class="st">&quot;Value&quot;</span>))<span class="sc">|&gt;</span></span>
+<span id="cb18-247"><a href="#cb18-247" aria-hidden="true" tabindex="-1"></a>  <span class="fu">vl_add_properties</span>(<span class="at">title =</span><span class="fu">list</span>(</span>
+<span id="cb18-248"><a href="#cb18-248" aria-hidden="true" tabindex="-1"></a>    <span class="at">text =</span> <span class="st">&quot;World Coffee Production in 2021&quot;</span>,</span>
+<span id="cb18-249"><a href="#cb18-249" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">&quot;Unit by Tons (T)&quot;</span></span>
+<span id="cb18-250"><a href="#cb18-250" aria-hidden="true" tabindex="-1"></a>  ))</span>
+<span id="cb18-251"><a href="#cb18-251" aria-hidden="true" tabindex="-1"></a><span class="in">```</span></span>
+<span id="cb18-252"><a href="#cb18-252" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-253"><a href="#cb18-253" aria-hidden="true" tabindex="-1"></a>This plot show the Distribution of coffee production around the world in 2021. We can see the in 2021， Viet Nam is the biggest coffee producer in the world. </span>
+<span id="cb18-254"><a href="#cb18-254" aria-hidden="true" tabindex="-1"></a> </span>
+<span id="cb18-255"><a href="#cb18-255" aria-hidden="true" tabindex="-1"></a><span class="fu">## Cited</span></span>
+<span id="cb18-256"><a href="#cb18-256" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-257"><a href="#cb18-257" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">bar chart with rounded corner</span><span class="co">](https://vega.github.io/vega-lite/examples/stacked_bar_count_corner_radius_mark.html)</span></span>
+<span id="cb18-258"><a href="#cb18-258" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-259"><a href="#cb18-259" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">line with point</span><span class="co">](https://vega.github.io/vega-lite/examples/line_overlay.html)</span></span>
+<span id="cb18-260"><a href="#cb18-260" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-261"><a href="#cb18-261" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Multiple time series and dose–response curves</span><span class="co">](https://clauswilke.com/dataviz/time-series.html)</span></span>
+<span id="cb18-262"><a href="#cb18-262" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb18-263"><a href="#cb18-263" aria-hidden="true" tabindex="-1"></a><span class="co">[</span><span class="ot">Choropleth mapping</span><span class="co">](https://clauswilke.com/dataviz/geospatial-data.html#choropleth-mapping)</span></span>
 </code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </div></div></div></div></div>
 </div> <!-- /content -->
